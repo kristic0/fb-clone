@@ -18,6 +18,26 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 1024,
     min: 6,
+  },
+  groups: {
+    type: [Number],
+    required: false
+  },
+  posts: {
+    type: [Number],
+    required: false
+  },
+  images: {
+    type: [Number],
+    required: false
+  },
+  friends: {
+    type: [String],
+    required: false
+  },
+  friendRequests: {
+    type: [String],
+    required: false
   }
 });
 
