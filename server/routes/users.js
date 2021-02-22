@@ -6,6 +6,26 @@ const bCrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const { registerValidation, loginValidation, addFriendValidation } = require('../validation');
 
+
+// **NEW** 
+//search users 
+router.get('/search' , async (req, res) => {
+  let name = req.query.name;
+
+  await User.find({
+     name: {
+      $regex: new RegExp(".*"+name+".*","i")
+     }
+  }, {
+    name: 1,
+    id: 1
+  }, function (err, data){
+    res.json(data);
+  });
+});
+
+
+
 router.get('/allUsers', async (req, res) => {
   let users = await User.find({});
   let allUsers = [];
