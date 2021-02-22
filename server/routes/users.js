@@ -2,9 +2,9 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
 const connection = require('../db');
-// const verify = require('../verifyToken.js');
 const bCrypt = require('bcrypt');
-const { registerValidation, loginValidation, removeUserValidation } = require('../validation');
+const jwt = require('jsonwebtoken');
+const { registerValidation, loginValidation, addFriendValidation } = require('../validation');
 
 router.get('/allUsers', async (req, res) => {
   let users = await User.find({});
@@ -52,17 +52,46 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/remove', async (req, res) => {
-  const {error} = removeUserValidation(req.body);
+router.post('/login', async (req, res) => {
+  const {error} = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = await User.findOne({email: req.body.removeUserEmail});
-  if (!user) return res.send('User doesn\'t exist');
+  const user = await User.findOne({email: req.body.email});
+  if (!user) return res.send('Invalid username or password');
 
-  const isDeleted = await User.deleteOne(user);
-  if (isDeleted) return res.status(200).send("Successfully deleted!");
+  const validPassword = await bCrypt.compare(req.body.password, user.password);
+  if (!validPassword) return res.status(400).send('Invalid username or password');
 
-  return res.status(400).send("Idk wtf");
+  const accessToken = jwt.sign({_id: user.id}, process.env.ACCESS_TOKEN_SECRET);
+  return res.status(200).header('auth-token',accessToken).send('Success!');
+});
+
+// Dumbfuck way of solving this piece of shit
+let skippedAddingFriend = false;
+router.post('/addFriend', async (req, res) => {
+  const {error} = addFriendValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const user = await User.findOne({ _id: req.body.id }, function (err, user) {
+    let inFriendRequests = user.friendRequests.find( (user) => {
+      return user === req.body.friendId;
+    });
+
+    if(inFriendRequests) {
+      skippedAddingFriend = true;
+    } else {
+      user.friendRequests = [...user.friendRequests, req.body.friendId];
+      user.save(function (err) {
+        if(err) {
+          console.error('err!');
+        }
+      });
+    }
+  });
+
+  if(!user) return res.send('could not find the user');
+  if(skippedAddingFriend) return res.send('already in friend reqs');
+  return res.send("Success!");
 });
 
 module.exports = router;

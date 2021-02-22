@@ -25,6 +25,15 @@ const removeUserValidation = (body) => {
   return schema.validate(body);
 };
 
+const addFriendValidation = (body) => {
+  const schema = Joi.object({
+    id: Joi.string().required(),
+    friendId: Joi.string().required()
+  });
+  return schema.validate(body);
+}
+
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.removeUserValidation = removeUserValidation;
+module.exports.addFriendValidation = addFriendValidation;
