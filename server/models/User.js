@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Image = require('../models/Image').schema;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -21,24 +22,25 @@ const userSchema = new mongoose.Schema({
   },
   groups: {
     type: [Number],
-    required: false
+    required: false,
   },
   posts: {
     type: [Number],
-    required: false
+    required: false,
   },
   images: {
-    type: [Number],
-    required: false
+    type: [Image],
+    ref: 'Image',
+    required: false,
   },
   friends: {
     type: [String],
-    required: false
+    required: false,
   },
   friendRequests: {
     type: [String],
-    required: false
-  }
+    required: false,
+  },
 });
 
 module.exports = mongoose.model('User', userSchema);

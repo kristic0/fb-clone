@@ -9,12 +9,13 @@ let usersRouter = require('./routes/users');
 let app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
+
+// catch 404 and forward to error handler
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-// catch 404 and forward to error handler
 app.use(function (req, res) {
   res.status(404);
   res.json({ error: 'Not found' });
