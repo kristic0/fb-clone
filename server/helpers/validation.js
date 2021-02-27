@@ -28,12 +28,37 @@ const removeUserValidation = (body) => {
 const addFriendValidation = (body) => {
   const schema = Joi.object({
     id: Joi.string().required(),
-    friendId: Joi.string().required()
+    friendId: Joi.string().required(),
   });
   return schema.validate(body);
-}
+};
+
+const getFriendRequests = (body) => {
+  const schema = Joi.object({
+    id: Joi.string().required(),
+  });
+  return schema.validate(body);
+};
+
+const uploadImageValidation = (body) => {
+  const schema = Joi.object({
+    userId: Joi.string().required(),
+    img: Joi.any(),
+  });
+  return schema.validate(body);
+};
+
+const getImageValidation = (body) => {
+  const schema = Joi.object({
+    userId: Joi.string().required(),
+  });
+  return schema.validate(body);
+};
 
 module.exports.registerValidation = registerValidation;
 module.exports.loginValidation = loginValidation;
 module.exports.removeUserValidation = removeUserValidation;
 module.exports.addFriendValidation = addFriendValidation;
+module.exports.getFriendRequests = getFriendRequests;
+module.exports.uploadImageValidation = uploadImageValidation;
+module.exports.getImageValidation = getImageValidation;
