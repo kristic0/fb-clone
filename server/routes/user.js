@@ -1,18 +1,24 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const connection = require('../db');
+const connection = require('../helpers/db');
 const bCrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Image = require('../models/Image');
-const { upload } = require('../multerSettings');
+const { upload } = require('../helpers/multerSettings');
+const {
+  addImageIdToUser,
+  findUserImageIds,
+} = require('../helpers/routerHelper');
 const fs = require('fs');
 const {
   registerValidation,
   loginValidation,
   addFriendValidation,
   getFriendRequests,
-} = require('../validation');
+  uploadImageValidation,
+  getImageValidation,
+} = require('../helpers/validation');
 
 router.get('/search', async (req, res) => {
   let name = req.body.name;
@@ -54,26 +60,14 @@ router.get('/allUsers', async (req, res) => {
   res.send(data);
 });
 
-router.get('/friendRequests', async (req, res) => {
-  const { error } = getFriendRequests(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
-
-  User.findOne(
-    { _id: req.body.id },
-    { _id: 0, friendRequests: 1 },
-    function (err, data) {
-      if (err) {
-        return res.status(400).send('Invalid user id');
-      }
-
-      return res.status(200).json(data);
-    }
-  );
-});
+// ============= IMAGE SECTION ============= //
 
 router.post('/uploadImage', upload.single('img'), (req, res) => {
-  let img = fs.readFileSync(req.file.path);
-  let encodeImage = img.toString('base64');
+  const { error } = uploadImageValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  let imgFile = fs.readFileSync(req.file.path);
+  let encodeImage = imgFile.toString('base64');
 
   const image = new Image({
     image: Buffer.from(encodeImage, 'base64'),
@@ -82,29 +76,58 @@ router.post('/uploadImage', upload.single('img'), (req, res) => {
 
   image
     .save()
-    .then((img) => {
-      res.json(img.id);
+    .then((imgFile) => {
+      addImageIdToUser(imgFile.id, req.body.userId);
+      res.status(200).send('Image added successfully ' + imgFile.id);
     })
     .catch((err) => res.json(err));
 });
 
+router.get('/images', async (req, res) => {
+  const { error } = getImageValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  let imageIdsRes = await findUserImageIds(req.body.userId);
+
+  let image = await Image.find({
+    _id: {
+      $in: imageIdsRes.images,
+    },
+  });
+  let allImages = [];
+
+  image.forEach((img) => {
+    allImages.push({
+      id: img._id,
+      imageBuffer: img.image,
+    });
+  });
+
+  let data = {
+    allImages: allImages,
+    count: await connection.db.collection('pictures').countDocuments(),
+  };
+
+  res.send(data);
+});
+
+// ============= LOGIN - REGISTER SECTION ============= //
+
 router.post('/register', async (req, res) => {
-  // Check if req is valid
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const emailExists = await User.findOne({ email: req.body.email });
   if (emailExists) return res.status(400).send('Email already exists');
 
-  //Hash pwd
   const hashedPassword = await bCrypt.hash(req.body.password, 10);
 
-  //Create user
   const user = new User({
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
   });
+
   try {
     const savedUser = await user.save();
     res.send(savedUser);
@@ -130,6 +153,8 @@ router.post('/login', async (req, res) => {
   );
   return res.status(200).header('auth-token', accessToken).send('Success!');
 });
+
+// ============= FRIENDS SECTION ============= //
 
 // Dumbfuck way of solving this piece of shit
 let skippedAddingFriend = false;
@@ -157,6 +182,23 @@ router.post('/addFriend', async (req, res) => {
   if (!user) return res.send('could not find the user');
   if (skippedAddingFriend) return res.send('already in friend reqs');
   return res.send('Success!');
+});
+
+router.get('/friendRequests', async (req, res) => {
+  const { error } = getFriendRequests(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  User.findOne(
+    { _id: req.body.id },
+    { _id: 0, friendRequests: 1 },
+    function (err, data) {
+      if (err) {
+        return res.status(400).send('Invalid user id');
+      }
+
+      return res.status(200).json(data);
+    }
+  );
 });
 
 module.exports = router;

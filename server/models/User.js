@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Image = require('../models/Image').schema;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -29,8 +28,7 @@ const userSchema = new mongoose.Schema({
     required: false,
   },
   images: {
-    type: [Image],
-    ref: 'Image',
+    type: [String],
     required: false,
   },
   friends: {
