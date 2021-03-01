@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const PostSchema = require('./Post').schema;
 
 const userSchema = new mongoose.Schema({
   name: {
@@ -24,7 +25,7 @@ const userSchema = new mongoose.Schema({
     required: false,
   },
   posts: {
-    type: [Number],
+    type: [{ type: mongoose.Schema.ObjectId, ref: 'Post' }],
     required: false,
   },
   images: {

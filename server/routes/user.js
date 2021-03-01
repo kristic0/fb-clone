@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
+
 const User = require('../models/User');
+const Image = require('../models/Image');
+
 const connection = require('../helpers/db');
 const bCrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const Image = require('../models/Image');
 const { upload } = require('../helpers/multerSettings');
 const {
   addImageIdToUser,
@@ -18,7 +20,11 @@ const {
   getFriendRequests,
   uploadImageValidation,
   getImageValidation,
+  addPostValidation,
+  reactToPostValidation,
 } = require('../helpers/validation');
+const Post = require('../models/Post');
+const { id } = require('../helpers/db');
 
 router.get('/search', async (req, res) => {
   let name = req.body.name;
@@ -39,30 +45,68 @@ router.get('/search', async (req, res) => {
   );
 });
 
-router.get('/allUsers', async (req, res) => {
-  let users = await User.find({});
-  let allUsers = [];
-  let data = {
-    allUsers: allUsers,
-    count: null,
-  };
+// ============= POST SECTION ============= //
 
-  users.forEach((user) => {
-    allUsers.push({
-      id: user._id,
-      name: user.name,
-    });
+router.post('/addPost', async (req, res) => {
+  const { error } = addPostValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const userId = req.body.userId;
+  const post = new Post({
+    content: req.body.content,
   });
 
-  data.allUsers = allUsers;
-  data.count = await connection.db.collection('users').countDocuments();
+  await User.findOne({ _id: userId }, async (err, user) => {
+    if (err) res.send(err);
 
-  res.send(data);
+    const savedPost = await post.save();
+    if (!savedPost) return res.status(400).send("Couldn't save post");
+
+    user.posts = [...user.posts, savedPost._id];
+
+    const userSaveRes = user.save();
+    if (!userSaveRes) return res.status(400).send('User err');
+
+    return res.status(201).json(user);
+  });
+});
+
+router.post('/reactToPost', async (req, res) => {
+  const { error } = reactToPostValidation(req.body);
+  if (error) return res.status(400).send(error.details[0].message);
+
+  const reactionBody = {
+    userId: req.body.userId,
+    reaction: req.body.reaction,
+  };
+
+  await Post.findById({ _id: req.body.postId }, async (err, post) => {
+    if (err) res.send(400).send(err);
+
+    let duplicateFound = false;
+    for (let i = 0; i < post.reactions.length; i++) {
+      if (post.reactions[i].userId == req.body.userId) {
+        post.reactions.splice(i, 1);
+        duplicateFound = true;
+      }
+    }
+
+    if (duplicateFound) {
+      const duplicatePostReactionFound = await post.save();
+      res.status(200).send(duplicatePostReactionFound);
+    } else {
+      post.reactions = [...post.reactions, reactionBody];
+      const postSaved = await post.save();
+
+      if (!postSaved) return res.status(400).send("Couldn't save reaction");
+      res.send(postSaved);
+    }
+  });
 });
 
 // ============= IMAGE SECTION ============= //
 
-router.post('/uploadImage', upload.single('img'), (req, res) => {
+router.post('/uploadImage', upload.single('img'), async (req, res) => {
   const { error } = uploadImageValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
