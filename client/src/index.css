@@ -54,7 +54,7 @@ a{
 }
 
 /*ikonica dugme*/
-.icon-button{
+.ikonica-button{
  --button-size: calc(var(--nav-size)*0.5);
  width: var(--button-size);
  height: var(--button-size);
@@ -65,4 +65,13 @@ a{
  display: flex;
  align-items: center;
  justify-content: center;
+ transition: filter 300ms;
+}
+.ikonica-button:hover{
+  filter: brightness(1.2);
+}
+.ikonica-button svg {
+  fill: var(--text-color);
+  width: 20px;
+  height: 20px;
 }
