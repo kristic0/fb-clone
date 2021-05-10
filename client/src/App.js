@@ -7,7 +7,7 @@ function App() {
   return (
     <div className="App">
       <Sidebar/>
-      <Feed>
+      <Feed/>
     </div>
   );
 }
