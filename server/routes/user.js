@@ -1,18 +1,18 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-const User = require('../models/User');
-const Image = require('../models/Image');
+const User = require("../models/User");
+const Image = require("../models/Image");
 
-const connection = require('../helpers/db');
-const bCrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const { upload } = require('../helpers/multerSettings');
+const connection = require("../helpers/db");
+const bCrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const { upload } = require("../helpers/multerSettings");
 const {
   addImageIdToUser,
   findUserImageIds,
-} = require('../helpers/routerHelper');
-const fs = require('fs');
+} = require("../helpers/routerHelper");
+const fs = require("fs");
 const {
   registerValidation,
   loginValidation,
@@ -22,17 +22,16 @@ const {
   getImageValidation,
   addPostValidation,
   reactToPostValidation,
-} = require('../helpers/validation');
-const Post = require('../models/Post');
-const { id } = require('../helpers/db');
+} = require("../helpers/validation");
+const Post = require("../models/Post");
 
-router.get('/search', async (req, res) => {
+router.get("/search", async (req, res) => {
   let name = req.body.name;
 
   await User.find(
     {
       name: {
-        $regex: new RegExp('.*' + name + '.*', 'i'),
+        $regex: new RegExp(".*" + name + ".*", "i"),
       },
     },
     {
@@ -47,7 +46,7 @@ router.get('/search', async (req, res) => {
 
 // ============= POST SECTION ============= //
 
-router.post('/addPost', async (req, res) => {
+router.post("/addPost", async (req, res) => {
   const { error } = addPostValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -65,13 +64,13 @@ router.post('/addPost', async (req, res) => {
     user.posts = [...user.posts, savedPost._id];
 
     const userSaveRes = user.save();
-    if (!userSaveRes) return res.status(400).send('User err');
+    if (!userSaveRes) return res.status(400).send("User err");
 
     return res.status(201).json(user);
   });
 });
 
-router.post('/reactToPost', async (req, res) => {
+router.post("/reactToPost", async (req, res) => {
   const { error } = reactToPostValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -106,15 +105,15 @@ router.post('/reactToPost', async (req, res) => {
 
 // ============= IMAGE SECTION ============= //
 
-router.post('/uploadImage', upload.single('img'), async (req, res) => {
+router.post("/uploadImage", upload.single("img"), async (req, res) => {
   const { error } = uploadImageValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let imgFile = fs.readFileSync(req.file.path);
-  let encodeImage = imgFile.toString('base64');
+  let encodeImage = imgFile.toString("base64");
 
   const image = new Image({
-    image: Buffer.from(encodeImage, 'base64'),
+    image: Buffer.from(encodeImage, "base64"),
     contentType: req.file.mimetype,
   });
 
@@ -122,12 +121,12 @@ router.post('/uploadImage', upload.single('img'), async (req, res) => {
     .save()
     .then((imgFile) => {
       addImageIdToUser(imgFile.id, req.body.userId);
-      res.status(200).send('Image added successfully ' + imgFile.id);
+      res.status(200).send("Image added successfully " + imgFile.id);
     })
     .catch((err) => res.json(err));
 });
 
-router.get('/images', async (req, res) => {
+router.get("/images", async (req, res) => {
   const { error } = getImageValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -149,7 +148,7 @@ router.get('/images', async (req, res) => {
 
   let data = {
     allImages: allImages,
-    count: await connection.db.collection('pictures').countDocuments(),
+    count: await connection.db.collection("pictures").countDocuments(),
   };
 
   res.send(data);
@@ -157,12 +156,12 @@ router.get('/images', async (req, res) => {
 
 // ============= LOGIN - REGISTER SECTION ============= //
 
-router.post('/register', async (req, res) => {
+router.post("/register", async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const emailExists = await User.findOne({ email: req.body.email });
-  if (emailExists) return res.status(400).send('Email already exists');
+  if (emailExists) return res.status(400).send("Email already exists");
 
   const hashedPassword = await bCrypt.hash(req.body.password, 10);
 
@@ -180,29 +179,29 @@ router.post('/register', async (req, res) => {
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post("/login", async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.send('Invalid username or password');
+  if (!user) return res.send("Invalid username or password");
 
   const validPassword = await bCrypt.compare(req.body.password, user.password);
   if (!validPassword)
-    return res.status(400).send('Invalid username or password');
+    return res.status(400).send("Invalid username or password");
 
   const accessToken = jwt.sign(
     { _id: user.id },
     process.env.ACCESS_TOKEN_SECRET
   );
-  return res.status(200).header('auth-token', accessToken).send('Success!');
+  return res.status(200).header("auth-token", accessToken).send("Success!");
 });
 
 // ============= FRIENDS SECTION ============= //
 
 // Dumbfuck way of solving this piece of shit
 let skippedAddingFriend = false;
-router.post('/addFriend', async (req, res) => {
+router.post("/addFriend", async (req, res) => {
   const { error } = addFriendValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -217,18 +216,18 @@ router.post('/addFriend', async (req, res) => {
       user.friendRequests = [...user.friendRequests, req.body.friendId];
       user.save(function (err) {
         if (err) {
-          console.error('err!');
+          console.error("err!");
         }
       });
     }
   });
 
-  if (!user) return res.send('could not find the user');
-  if (skippedAddingFriend) return res.send('already in friend reqs');
-  return res.send('Success!');
+  if (!user) return res.send("could not find the user");
+  if (skippedAddingFriend) return res.send("already in friend reqs");
+  return res.send("Success!");
 });
 
-router.get('/friendRequests', async (req, res) => {
+router.get("/friendRequests", async (req, res) => {
   const { error } = getFriendRequests(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -237,7 +236,7 @@ router.get('/friendRequests', async (req, res) => {
     { _id: 0, friendRequests: 1 },
     function (err, data) {
       if (err) {
-        return res.status(400).send('Invalid user id');
+        return res.status(400).send("Invalid user id");
       }
 
       return res.status(200).json(data);
