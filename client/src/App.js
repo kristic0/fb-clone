@@ -82,7 +82,7 @@ const Header = () => {
                     </IconButton>
 
                     <NavItem icon = {<KaretDole/>}>
-                        <DropdownMenu></DropdownMenu>
+                        <SpustajuciMeni></SpustajuciMeni>
                     </NavItem>
 
                 </div>   
@@ -94,7 +94,7 @@ const Header = () => {
       const[open,setOpen] = useState(false);
       return (
         <li className="nav-item">
-          <a href="#" className="icon-button" onClick = {() => setOpen(!open)}>
+          <a href="#" className="ikonica-dugme" onClick = {() => setOpen(!open)}>
             {props.icon}
           </a>
     
@@ -102,20 +102,20 @@ const Header = () => {
         </li>
       );
 }
-function DropdownMenu(){
+function SpustajuciMeni(){
   
-  const [activeMenu, setActiveMenu] = useState('main'); // settings i zivotinje
-  const [menuHeight, setMenuHeight] = useState(null);
+  const [activeMeni, setActiveMeni] = useState('main');
+  const [meniVisina, setMeniVisina] = useState(null);
 
-  function calcHeight(el){
-    const height = el.offsetHeight;
-    setMenuHeight(height);
+  function calcVisina(el){
+    const visina = el.offsetVisina;
+    setMeniVisina(visina);
   }
 
-  function DropdownItem(props){
+  function SpustajuciItem(props){
     return(
-      <a href = "#" className = "menu-item" onClick={() => props.goToMenu && setActiveMenu(props.goToMenu)}>
-          <span className = "icon-button">{props.leftIcon}</span>
+      <a href = "#" className = "meni-item" onClick={() => props.goToMeni && setActiveMeni(props.goToMeni)}>
+          <span className = "ikonica-dugme">{props.leftIcon}</span>
           {props.children}
           <span className = "icon-right">{props.rightIcon}</span>
 
@@ -124,40 +124,40 @@ function DropdownMenu(){
   }
 
   return(
-    <div className="dropdown" style = {{height: menuHeight}}>
+    <div className="spustanje" style = {{visina: meniVisina}}>
 
       <CSSTransition
-        in = {activeMenu === 'main'}
+        in = {activeMeni === 'main'}
         unmountOnExit
         timeout={500}
-        classNames = "menu-primary"
+        classNames = "meni-primary"
         
         >
-          <div className = "menu">
+          <div className = "meni">
 
-      <DropdownItem leftIcon = {<Avatar/>}>Moj Profil</DropdownItem>
-      <DropdownItem 
+      <SpustajuciItem leftIcon = {<Avatar/>}>Moj Profil</SpustajuciItem>
+      <SpustajuciItem 
         leftIcon = {<ZubcanikIkonica/>}
         rightIcon = {<CevronIkonica/>}
-        goToMenu = "settings">
+        goToMeni = "settings">
         Opcije
           
-      </DropdownItem>
+      </SpustajuciItem>
     </div>
       </CSSTransition>
 
       <CSSTransition
-        in = {activeMenu === 'settings'}
+        in = {activeMeni === 'settings'}
         unmountOnExit
         timeout={500}
-        classNames = "menu-secondary"
+        classNames = "meni-secondary"
         >
-          <div className = "menu">
+          <div className = "meni">
 
-          <DropdownItem leftIcon = {<KaretDole/>}  goToMenu = "main"/>
-          <DropdownItem leftIcon = {<ZubcanikIkonica/>}>Opcije</DropdownItem>   
-          <DropdownItem leftIcon = {<Katanac/>}>Sigurnosne Opcije</DropdownItem> 
-          <DropdownItem leftIcon = {<Upitnik/>}>Pomoc i Podrska</DropdownItem> 
+          <SpustajuciItem leftIcon = {<KaretDole/>}  goToMeni = "main"/>
+          <SpustajuciItem leftIcon = {<ZubcanikIkonica/>}>Opcije</SpustajuciItem>   
+          <SpustajuciItem leftIcon = {<Katanac/>}>Sigurnosne Opcije</SpustajuciItem> 
+          <SpustajuciItem leftIcon = {<Upitnik/>}>Pomoc i Podrska</SpustajuciItem> 
   
     </div>
       </CSSTransition>

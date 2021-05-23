@@ -33,12 +33,12 @@ a{
   text-decoration: none;
 }
 
-.navbar{
+/* .navbar{
   height: var(--nav-size);
   background-color: var(--bg);
   padding: 0 1rem;
   border-bottom: var(--border);
-}
+} */
 
 .navbar-nav{
   max-width: 100%;
@@ -55,7 +55,7 @@ a{
 }
 
 /*icon dugme*/
-.icon-button{
+.ikonica-dugme{
  --button-size: calc(var(--nav-size)*0.5);
  width: var(--button-size);
  height: var(--button-size);
@@ -69,17 +69,17 @@ a{
  transition: filter 300ms;
 }
 
-.icon-button:hover{
+.ikonica-dugme:hover{
   filter: brightness(1.2);
 }
 
-.icon-button svg {
+.ikonica-dugme svg {
   fill: var(--text-color);
   width: 20px;
   height: 20px;
 }
 
-.dropdown {
+.spustanje {
   position: absolute;
   top: 58px;
   width: 300px;
@@ -93,7 +93,7 @@ a{
   transition: height var(--speed) ease;
 }
 
-.menu-item{
+.meni-item{
 height: 50px;
 display: flex;
 align-items: center;
@@ -102,7 +102,7 @@ transition: background var(--speed);
 padding: 0.5rem;
 }
 
-.menu-item:hover{
+.meni-item:hover{
   background-color: #cccccc;
 }
 
@@ -110,46 +110,46 @@ padding: 0.5rem;
   margin-left: auto;
 }
 
-.menu-primary-enter{
+.meni-primary-enter{
   position: absolute;
   transform: translateX(-110%);
 
 }
 
-.menu-primary-enter-active{
+.meni-primary-enter-active{
   transform: translateX(0%);
   transition: all var(--speed) ease;
 
 }
 
-.menu-primary-exit{
+.meni-primary-exit{
   position: absolute;
 
 }
 
-.menu-primary-exit-active{
+.meni-primary-exit-active{
   transform: translateX(-110%);
   transition: all var(--speed) ease;
   
 }
 
-.menu-secondary-enter{
+.meni-secondary-enter{
   transform: translateX(110%);
 
 }
 
-.menu-secondary-enter-active{
+.meni-secondary-enter-active{
   transform: translateX(0%);
   transition: all var(--speed) ease;
 
 }
 
-.menu-secondary-exit{
+.meni-secondary-exit{
   
 
 }
 
-.menu-secondary-exit-active{
+.meni-secondary-exit-active{
   transform: translateX(110%);
   transition: all var(--speed) ease;
 
