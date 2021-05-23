@@ -1,10 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const verify = require('../helpers/verifyToken.js');
-const { removeUserValidation } = require('../helpers/validation');
-const User = require('../models/User');
-const connection = require('../helpers/db');
-
+import { removeUserValidation } from '../helpers/validation.js';
+import { User } from '../models/User.js';
+import { connection } from '../helpers/db.js';
+import verify from '../helpers/verifyToken.js'
 /* GET home page. */
 router.get('/', function (req, res) {
   res.send('server is working').status(200);
@@ -44,4 +43,4 @@ router.get('/admin/allUsers', async (req, res) => {
   res.send(data);
 });
 
-module.exports = router;
+export default router;

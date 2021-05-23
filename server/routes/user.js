@@ -1,19 +1,16 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
-const User = require("../models/User");
-const Image = require("../models/Image");
+import { User } from "../models/User.js";
+import { Image } from "../models/Image.js";
 
-const connection = require("../helpers/db");
-const bCrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const { upload } = require("../helpers/multerSettings");
-const {
-  addImageIdToUser,
-  findUserImageIds,
-} = require("../helpers/routerHelper");
-const fs = require("fs");
-const {
+import { connection } from "../helpers/db.js";
+import bCrypt from "bcrypt";
+import jwt from "jsonwebtoken";
+import { upload } from "../helpers/multerSettings.js";
+import { addImageIdToUser, findUserImageIds } from "../helpers/routerHelper.js";
+import fs from "fs";
+import {
   registerValidation,
   loginValidation,
   addFriendValidation,
@@ -22,8 +19,8 @@ const {
   getImageValidation,
   addPostValidation,
   reactToPostValidation,
-} = require("../helpers/validation");
-const Post = require("../models/Post");
+} from "../helpers/validation.js";
+import { Post } from "../models/Post.js";
 
 router.get("/search", async (req, res) => {
   let name = req.body.name;
@@ -244,4 +241,4 @@ router.get("/friendRequests", async (req, res) => {
   );
 });
 
-module.exports = router;
+export default router;

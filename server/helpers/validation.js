@@ -1,6 +1,6 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
-const registerValidation = (body) => {
+export const registerValidation = (body) => {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     email: Joi.string().min(6).required().email(),
@@ -9,7 +9,7 @@ const registerValidation = (body) => {
   return schema.validate(body);
 };
 
-const loginValidation = (body) => {
+export const loginValidation = (body) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
@@ -17,7 +17,7 @@ const loginValidation = (body) => {
   return schema.validate(body);
 };
 
-const removeUserValidation = (body) => {
+export const removeUserValidation = (body) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     removeUserEmail: Joi.string().min(3).required(),
@@ -25,7 +25,7 @@ const removeUserValidation = (body) => {
   return schema.validate(body);
 };
 
-const addFriendValidation = (body) => {
+export const addFriendValidation = (body) => {
   const schema = Joi.object({
     id: Joi.string().required(),
     friendId: Joi.string().required(),
@@ -33,14 +33,14 @@ const addFriendValidation = (body) => {
   return schema.validate(body);
 };
 
-const getFriendRequests = (body) => {
+export const getFriendRequests = (body) => {
   const schema = Joi.object({
     id: Joi.string().required(),
   });
   return schema.validate(body);
 };
 
-const uploadImageValidation = (body) => {
+export const uploadImageValidation = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
     img: Joi.any(),
@@ -48,14 +48,14 @@ const uploadImageValidation = (body) => {
   return schema.validate(body);
 };
 
-const getImageValidation = (body) => {
+export const getImageValidation = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
   });
   return schema.validate(body);
 };
 
-const addPostValidation = (body) => {
+export const addPostValidation = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
     content: Joi.string().max(500),
@@ -63,7 +63,7 @@ const addPostValidation = (body) => {
   return schema.validate(body);
 };
 
-const reactToPostValidation = (body) => {
+export const reactToPostValidation = (body) => {
   const schema = Joi.object({
     postId: Joi.string().required(),
     userId: Joi.string().required(),
@@ -72,12 +72,3 @@ const reactToPostValidation = (body) => {
   return schema.validate(body);
 };
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
-module.exports.removeUserValidation = removeUserValidation;
-module.exports.addFriendValidation = addFriendValidation;
-module.exports.getFriendRequests = getFriendRequests;
-module.exports.uploadImageValidation = uploadImageValidation;
-module.exports.getImageValidation = getImageValidation;
-module.exports.addPostValidation = addPostValidation;
-module.exports.reactToPostValidation = reactToPostValidation;

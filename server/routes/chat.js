@@ -1,8 +1,8 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const connection = require("../helpers/db");
-const User = require("../models/User");
-const Chat = require("../models/Chat");
+import { connection } from "../helpers/db.js";
+import { User } from "../models/User.js";
+import { Chat } from "../models/Chat.js";
 
 router.post("/:userId", async (req, res) => {
   let userId = req.params.userId;
@@ -15,4 +15,4 @@ router.post("/:userId", async (req, res) => {
   res.sendStatus(200);
 });
 
-module.exports = router;
+export default router;

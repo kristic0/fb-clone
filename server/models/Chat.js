@@ -1,9 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from 'mongoose';
 
-const ChatSchema = new mongoose.Schema({
+export const Chat = mongoose.model("Chat", new mongoose.Schema({
   log: {
     type: [],
   },
-});
-
-module.exports = mongoose.model("Chat", ChatSchema);
+}));

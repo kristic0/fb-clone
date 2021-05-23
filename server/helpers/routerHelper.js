@@ -1,18 +1,18 @@
-const User = require('../models/User');
+import { User } from "../models/User.js";
 
-async function addImageIdToUser(imageId, userId) {
+export async function addImageIdToUser(imageId, userId) {
   await User.findOne({ _id: userId }, function (err, user) {
     user.images = [...user.images, imageId];
 
     user.save((err) => {
       if (err) {
-        console.error('err!');
+        console.error("err!");
       }
     });
   });
 }
 
-async function findUserImageIds(userId) {
+export async function findUserImageIds(userId) {
   let imageIds;
 
   await User.findOne(
@@ -29,6 +29,3 @@ async function findUserImageIds(userId) {
 
   return imageIds;
 }
-
-module.exports.addImageIdToUser = addImageIdToUser;
-module.exports.findUserImageIds = findUserImageIds;

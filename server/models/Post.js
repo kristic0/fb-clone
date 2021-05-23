@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 // // prettier-ignore
 // const ReactionEnum = Object.freeze({
@@ -12,7 +12,7 @@ const mongoose = require('mongoose');
 //   });
 // // prettier-ignore-end
 
-const PostSchema = new mongoose.Schema({
+export const Post = mongoose.model('Post', new mongoose.Schema({
   content: {
     type: String,
   },
@@ -23,6 +23,4 @@ const PostSchema = new mongoose.Schema({
   reactionsCount: {
     type: Number,
   },
-});
-
-module.exports = mongoose.model('Post', PostSchema, 'post');
+}), 'post');

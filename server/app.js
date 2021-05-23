@@ -1,21 +1,42 @@
-const express = require("express");
-const fs = require("fs");
+import swaggerJsdoc from "swagger-jsdoc";
+import express from "express";
+import fs from "fs";
+import swaggerUI from "swagger-ui-express";
+import path from "path";
+import { connection } from "./helpers/db.js";
+import dotenv from "dotenv";
+import indexRouter from "./routes/index.js";
+import userRouter from "./routes/user.js";
+import chatRouter from "./routes/chat.js";
+import * as http from "http";
+import { Server, Socket } from "socket.io";
 
-require("path");
-require("./helpers/db");
-require("dotenv").config();
+const options = {
+  definition: {
+    openapi: "3.0.0",
+    info: {
+      title: "Facebook clone API",
+      version: "1.0.0",
+      description: "Express API",
+    },
+    servers: [
+      {
+        url: "http://localhost:4000",
+      },
+    ],
+  },
+  apis: ["./routes/*.js"],
+};
 
-let indexRouter = require("./routes/index");
-let userRouter = require("./routes/user");
-let chatRouter = require("./routes/chat");
+dotenv.config();
 
 let app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const http = require("http").Server(app);
-const io = require("socket.io")(http, { cors: { origin: "*" } });
+let httpServer = http.Server(app);
 
+const io = new Server(httpServer, { cors: { origin: "*" } });
 // uploads folder needed for file uploads (multer)
 if (!fs.existsSync("uploads/")) {
   fs.mkdirSync("uploads/");
@@ -26,6 +47,7 @@ if (!fs.existsSync("uploads/")) {
 app.use("/", indexRouter);
 app.use("/user", userRouter);
 app.use("/chat", chatRouter);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsdoc(options)));
 
 // catch 404 and forward to error handler
 app.use(function (req, res) {
@@ -42,8 +64,8 @@ io.on("connection", (socket) => {
   });
 });
 
-http.listen(process.env.PORT || 4000, () =>
+httpServer.listen(process.env.PORT || 4001, () =>
   console.log(`Server is running on: http://localhost:${process.env.PORT}`)
 );
 
-module.exports = app;
+export default app;
