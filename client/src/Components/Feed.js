@@ -16,8 +16,6 @@ const Feed = () => {
                 imgName='imgName'
                 username='Frankie' 
             />
-            
-
         </div>
     )
 }
