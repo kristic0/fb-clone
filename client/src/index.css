@@ -11,3 +11,146 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+:root {
+  --bg: #eff2f5;
+  --bg-accent: #f0f2f3;
+  --text-color: #444343;
+  --nav-size: 60px;
+  --border: 1px solid #474a4d;
+  --boarder-radius: 8px;
+  --speed: 500ms;
+}
+
+ul{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a{
+  color: var(--text-color);
+  text-decoration: none;
+}
+
+/* .navbar{
+  height: var(--nav-size);
+  background-color: var(--bg);
+  padding: 0 1rem;
+  border-bottom: var(--border);
+} */
+
+.navbar-nav{
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.nav-item{
+  width: var(--nav-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/*icon dugme*/
+.ikonica-dugme{
+ --button-size: calc(var(--nav-size)*0.5);
+ width: var(--button-size);
+ height: var(--button-size);
+ background-color: #ffffff;
+ border-radius: 50%;
+ padding: 5px;
+ margin: 2px;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ transition: filter 300ms;
+}
+
+.ikonica-dugme:hover{
+  filter: brightness(1.2);
+}
+
+.ikonica-dugme svg {
+  fill: var(--text-color);
+  width: 20px;
+  height: 20px;
+}
+
+.spustanje {
+  position: absolute;
+  top: 58px;
+  width: 300px;
+  transform: translateX(-45%);
+  background-color: var(--bg);
+  border: var(--border);
+  border-radius: var(--boarder-radius);
+  padding: 1rem;
+  overflow: hidden;
+
+  transition: height var(--speed) ease;
+}
+
+.meni-item{
+height: 50px;
+display: flex;
+align-items: center;
+border-radius: var(--boarder-radius);
+transition: background var(--speed);
+padding: 0.5rem;
+}
+
+.meni-item:hover{
+  background-color: #cccccc;
+}
+
+.icon-right{
+  margin-left: auto;
+}
+
+.meni-primary-enter{
+  position: absolute;
+  transform: translateX(-110%);
+
+}
+
+.meni-primary-enter-active{
+  transform: translateX(0%);
+  transition: all var(--speed) ease;
+
+}
+
+.meni-primary-exit{
+  position: absolute;
+
+}
+
+.meni-primary-exit-active{
+  transform: translateX(-110%);
+  transition: all var(--speed) ease;
+  
+}
+
+.meni-secondary-enter{
+  transform: translateX(110%);
+
+}
+
+.meni-secondary-enter-active{
+  transform: translateX(0%);
+  transition: all var(--speed) ease;
+
+}
+
+.meni-secondary-exit{
+  
+
+}
+
+.meni-secondary-exit-active{
+  transform: translateX(110%);
+  transition: all var(--speed) ease;
+
+}

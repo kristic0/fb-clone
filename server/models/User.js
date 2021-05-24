@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
-const userSchema = new mongoose.Schema({
+export const User = mongoose.model('User', new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -18,7 +18,26 @@ const userSchema = new mongoose.Schema({
     required: true,
     max: 1024,
     min: 6,
-  }
-});
-
-module.exports = mongoose.model('User', userSchema);
+  },
+  groups: {
+    type: [Number],
+    required: false,
+  },
+  posts: {
+    type: [{ type: mongoose.Schema.ObjectId, ref: 'Post' }],
+    required: false,
+  },
+  images: {
+    type: [String],
+    required: false,
+  },
+  friends: {
+    type: [String],
+    required: false,
+  },
+  friendRequests: {
+    type: [String],
+    required: false,
+  },
+})
+, 'users');
