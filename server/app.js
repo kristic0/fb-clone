@@ -8,8 +8,8 @@ import dotenv from "dotenv";
 import indexRouter from "./routes/index.js";
 import userRouter from "./routes/user.js";
 import chatRouter from "./routes/chat.js";
-import * as http from "http";
-import { Server, Socket } from "socket.io";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 const options = {
   definition: {
@@ -34,9 +34,12 @@ let app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-let httpServer = http.Server(app);
+const httpServer = createServer(app);
 
-const io = new Server(httpServer, { cors: { origin: "*" } });
+const io = new Server(httpServer, {
+  cors: { origin: "*" },
+});
+
 // uploads folder needed for file uploads (multer)
 if (!fs.existsSync("uploads/")) {
   fs.mkdirSync("uploads/");
@@ -56,16 +59,38 @@ app.use(function (req, res) {
 });
 
 io.on("connection", (socket) => {
-  console.log("user connected");
+  console.log("New user connected");
 
-  socket.on("message", (data) => {
+  //default username
+  socket.username = "Anonymous";
+
+  //listen on change_username
+  socket.on("change_username", (data) => {
+    socket.username = data.username;
+  });
+
+  //listen on new_message
+  socket.on("client:message", (data) => {
+    //broadcast the new message
+    io.sockets.emit("server:message", {
+      message: data.message,
+      username: socket.username,
+    });
+
     console.log(data);
-    socket.send(data);
+  });
+
+  //listen on typing
+  socket.on("typing", (data) => {
+    socket.broadcast.emit("typing", { username: socket.username });
   });
 });
 
-httpServer.listen(process.env.PORT || 4001, () =>
-  console.log(`Server is running on: http://localhost:${process.env.PORT}`)
-);
+httpServer.listen(4001, () => {
+  console.log(`Server is running on: http://localhost:${process.env.PORT}`);
+  console.log(
+    `Swagger running on: http://localhost:${process.env.PORT}/api-docs`
+  );
+});
 
 export default app;

@@ -22,6 +22,18 @@ import {
 } from "../helpers/validation.js";
 import { Post } from "../models/Post.js";
 
+/**
+ * @openapi
+ * /search:
+ *   get:
+ *     tags:
+ *        - Korisnik
+ *     description: Vraca JSON
+ *     responses:
+ *       200:
+ *         description: Vraca listu korisnika za prosledjene parametre
+ */
+
 router.get("/search", async (req, res) => {
   let name = req.body.name;
 
@@ -42,6 +54,18 @@ router.get("/search", async (req, res) => {
 });
 
 // ============= POST SECTION ============= //
+
+/**
+ * @openapi
+ * /addPost:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Endpoint za dodavanje posta na zid
+ *     responses:
+ *       200:
+ *         description: Ukoliko je prosledjeni post validan
+ */
 
 router.post("/addPost", async (req, res) => {
   const { error } = addPostValidation(req.body);
@@ -66,6 +90,18 @@ router.post("/addPost", async (req, res) => {
     return res.status(201).json(user);
   });
 });
+
+/**
+ * @openapi
+ * /reactToPost:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Endpoint za reakcije na postu
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
 
 router.post("/reactToPost", async (req, res) => {
   const { error } = reactToPostValidation(req.body);
@@ -102,6 +138,23 @@ router.post("/reactToPost", async (req, res) => {
 
 // ============= IMAGE SECTION ============= //
 
+/**
+ * @openapi
+ * /uploadImage:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Endpoint za dodavanje slike na profil
+ *     parameters:
+ *       - name: _id
+ *         description: Fruit Object ID
+ *         in: path
+ *         required: true
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
 router.post("/uploadImage", upload.single("img"), async (req, res) => {
   const { error } = uploadImageValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -122,6 +175,18 @@ router.post("/uploadImage", upload.single("img"), async (req, res) => {
     })
     .catch((err) => res.json(err));
 });
+
+/**
+ * @openapi
+ * /images:
+ *   get:
+ *     tags:
+ *        - Korisnik
+ *     description: Endpoint koji vraca sve slike datog korisnika
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
 
 router.get("/images", async (req, res) => {
   const { error } = getImageValidation(req.body);
@@ -153,6 +218,18 @@ router.get("/images", async (req, res) => {
 
 // ============= LOGIN - REGISTER SECTION ============= //
 
+/**
+ * @openapi
+ * /register:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Registracija
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
 router.post("/register", async (req, res) => {
   const { error } = registerValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -176,6 +253,18 @@ router.post("/register", async (req, res) => {
   }
 });
 
+/**
+ * @openapi
+ * /login:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Login
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
 router.post("/login", async (req, res) => {
   const { error } = loginValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
@@ -196,7 +285,18 @@ router.post("/login", async (req, res) => {
 
 // ============= FRIENDS SECTION ============= //
 
-// Dumbfuck way of solving this piece of shit
+/**
+ * @openapi
+ * /addFriend:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Dodaj prijatelja
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
 let skippedAddingFriend = false;
 router.post("/addFriend", async (req, res) => {
   const { error } = addFriendValidation(req.body);
@@ -223,6 +323,18 @@ router.post("/addFriend", async (req, res) => {
   if (skippedAddingFriend) return res.send("already in friend reqs");
   return res.send("Success!");
 });
+
+/**
+ * @openapi
+ * /friendRequests:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Zahtevi za prijateljstvo
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
 
 router.get("/friendRequests", async (req, res) => {
   const { error } = getFriendRequests(req.body);

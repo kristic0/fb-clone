@@ -1,15 +1,14 @@
-import express from 'express';
+import express from "express";
 const router = express.Router();
-import { removeUserValidation } from '../helpers/validation.js';
-import { User } from '../models/User.js';
-import { connection } from '../helpers/db.js';
-import verify from '../helpers/verifyToken.js'
-/* GET home page. */
-router.get('/', function (req, res) {
-  res.send('server is working').status(200);
+import { removeUserValidation } from "../helpers/validation.js";
+import { User } from "../models/User.js";
+import { connection } from "../helpers/db.js";
+import verify from "../helpers/verifyToken.js";
+router.get("/", function (req, res) {
+  res.send("server is working").status(200);
 });
 
-router.post('/admin/removeUser', verify, async (req, res) => {
+router.post("/admin/removeUser", verify, async (req, res) => {
   const { error } = removeUserValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -17,12 +16,12 @@ router.post('/admin/removeUser', verify, async (req, res) => {
   if (!user) return res.send("User doesn't exist");
 
   const isDeleted = await User.deleteOne(user);
-  if (isDeleted) return res.status(200).send('Successfully deleted!');
+  if (isDeleted) return res.status(200).send("Successfully deleted!");
 
-  return res.status(400).send('Idk wtf');
+  return res.status(400).send("Idk wtf");
 });
 
-router.get('/admin/allUsers', async (req, res) => {
+router.get("/admin/allUsers", async (req, res) => {
   let users = await User.find({});
   let allUsers = [];
   let data = {
@@ -38,7 +37,7 @@ router.get('/admin/allUsers', async (req, res) => {
   });
 
   data.allUsers = allUsers;
-  data.count = await connection.db.collection('users').countDocuments();
+  data.count = await connection.db.collection("users").countDocuments();
 
   res.send(data);
 });
