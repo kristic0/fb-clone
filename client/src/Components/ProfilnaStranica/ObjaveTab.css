@@ -1,0 +1,351 @@
+.divDoleObjave {
+  background-color: #f2f3f5;
+}
+
+.divTabovi {
+  display: grid;
+  width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: 40% auto;
+  grid-template-areas: "uvod status" "uvod objavaTab" "uvod objave" "fotografije objave" "prijatelji objave";
+}
+
+.divUvod {
+  background-color: white;
+  border-radius: 10px;
+  grid-area: uvod;
+  width: 95%;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+
+  /* margin-right: 270px;
+    margin-top: 10px;*/
+}
+
+.divUvod > h1 {
+  margin-left: 15px;
+  font: 22px Tahoma;
+}
+
+.listaUvod {
+  margin-left: 12px;
+}
+
+.listaUvod > li {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.lokacija {
+  margin-right: 5px;
+}
+
+.skola {
+  margin-right: 5px;
+}
+
+.posao {
+  margin-right: 5px;
+}
+
+.izmena {
+  justify-content: center;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding: 8px;
+  margin-right: 10px;
+  font: 16px Tahoma;
+}
+
+.izmena:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.dodavanje {
+  justify-content: center;
+  border-radius: 5px;
+  background-color: rgba(0, 0, 0, 0.1);
+  margin-top: 10px;
+  padding: 8px;
+  margin-right: 10px;
+  margin-bottom: 20px;
+  font: 16px Tahoma;
+}
+
+.dodavanje:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.fotografije {
+  background-color: white;
+  border-radius: 10px;
+  grid-area: fotografije;
+  width: 95%;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+}
+
+.fotografije > h1 {
+  margin-left: 15px;
+  font: 22px Tahoma;
+}
+
+.vrsta {
+  width: 33.3%;
+  display: inline-table;
+  margin-right: -10px;
+  margin-left: 5px;
+}
+
+.kolona {
+  margin-right: 10px;
+  width: 95px;
+  height: 95px;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.kolona > img {
+  width: 95px;
+  height: 95px;
+}
+
+.razmisljanje {
+  background-color: white;
+  grid-area: status;
+  width: 100%;
+  border-radius: 10px;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+  display: grid;
+  align-items: center;
+}
+
+.noviStatus {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+}
+
+.noviStatus > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+  background-color: #eff2f5;
+  padding: 12px;
+  padding-right: 55%;
+  border-radius: 50px;
+}
+
+.razmisljanjeDonjiDeo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 1px solid #cccccc;
+}
+
+.kamera {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 10px 0px 10px 10px;
+}
+
+.kamera:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.fotoVideo {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 10px 10px 10px 0px;
+}
+
+.fotoVideo:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.kamera > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.fotoVideo > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.objaveOpcije {
+  display: grid;
+  background-color: white;
+  grid-area: objavaTab;
+  border-radius: 10px;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+}
+
+.objaveGornjiDeo {
+  display: flex;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.objaveGornjiDeo > h1 {
+  display: flex;
+  align-items: center;
+  margin-top: 0px;
+  margin-bottom: 0px;
+  margin-left: 10px;
+  font: 20px Tahoma;
+  padding: 0px;
+}
+
+.filteri {
+  margin-left: 25%;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0 10px 0 10px;
+}
+
+.filteri:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.filteri > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.upravljanje {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  padding: 0 10px 0 10px;
+}
+
+.upravljanje:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.upravljanje > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.objaveDonjiDeo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #cccccc;
+}
+
+.prikazUViduListe {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 5px 0px 5px 5px;
+}
+
+.prikazUViduListe:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.prikazUViduMreze {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  margin: 5px 5px 5px 0px;
+}
+
+.prikazUViduListe::selection {
+  border-bottom: 1px solid #1877f2;
+  color: #1877f2;
+}
+
+.prikazUViduMreze:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.prikazUViduMreze::selection {
+  border-bottom: 1px solid #1877f2;
+  color: #1877f2;
+}
+
+.prikazUViduListe > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.prikazUViduMreze > h1 {
+  margin-left: 5px;
+  font: 16px Tahoma;
+}
+
+.gridPrijatelji {
+  background-color: white;
+  border-radius: 10px;
+  grid-area: prijatelji;
+  width: 95%;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+}
+
+.gridPrijatelji > .kolona {
+  margin-bottom: 10px;
+}
+
+.gridPrijatelji > h1 {
+  padding-top: 10px;
+  margin-left: 15px;
+  font: 22px Tahoma;
+}
+
+.prijateljiVrsta {
+  width: 33.3%;
+  display: inline-table;
+  margin-right: -10px;
+  margin-left: 5px;
+}
+
+.prijateljiKolona {
+  text-align: center;
+  margin-right: 10px;
+  width: 95px;
+  height: 95px;
+  margin: auto;
+  margin-bottom: 10px;
+  padding-bottom: 30px;
+  font-size: 13px;
+}
+
+.prijateljiKolona > img {
+  width: 95px;
+  height: 95px;
+  border-radius: 10px;
+}
+
+.objave {
+  background-color: white;
+  border-radius: 10px;
+  grid-area: objave;
+  width: 95%;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+}
