@@ -1,0 +1,170 @@
+.glavniDiv {
+  background-color: #f2f3f5;
+}
+
+.divSve {
+  display: grid;
+  width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: auto;
+  grid-template-areas: "informacije" "prijatelji" "fotografije";
+}
+
+.informacije {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 15px;
+  box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+  grid-area: informacije;
+}
+
+.informacije {
+  display: grid;
+  grid-template-columns: 30% auto;
+}
+
+.levoInformacije {
+  border-right: 1px solid #cccccc;
+}
+
+.levoInformacije > h1 {
+  margin-left: 15px;
+  font: bold 20px Tahoma;
+}
+
+.listaInformacija {
+  display: grid;
+  margin-left: 5px;
+  margin-right: 5px;
+}
+
+.listaInformacija > li {
+  font: 16px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-bottom: 5px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.neaktivanLiInfo:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.listaInformacija > .aktivanLiInfo {
+  background-color: rgb(199, 211, 250);
+  color: #1877f2;
+}
+
+.listaPregled {
+  font: 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.listaPregled > li {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.neaktivanDiv {
+  display: none;
+}
+
+.veza {
+  margin-right: 5px;
+}
+
+.listaPosaoObrazovanje {
+  font: 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.listaPosaoObrazovanje > li {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.listaPosaoObrazovanje > h1 {
+  font: bold 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.listaMesta {
+  font: 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.listaMesta > li {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.listaMesta > h1 {
+  font: bold 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.listaKontaktInfo {
+  font: 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.listaKontaktInfo > li {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.listaKontaktInfo > h1 {
+  font: bold 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.mejl {
+  margin-right: 5px;
+}
+
+.pol {
+  margin-right: 5px;
+}
+.osnovneInformacije {
+  margin-top: 50px;
+}
+
+.rodjendan {
+  margin-right: 5px;
+}
+
+.listaPorodicaVeza {
+  font: 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+  margin-left: 12px;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.listaPorodicaVeza > h1 {
+  font: bold 18px Tahoma;
+  color: rgba(0, 0, 0, 0.7);
+}
+
+.listaPorodicaVeza > li {
+  display: flex;
+  align-items: center;
+  margin-top: 20px;
+}

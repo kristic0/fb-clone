@@ -1,0 +1,42 @@
+.divFotografije {
+  display: grid;
+  width: 850px;
+  margin-left: auto;
+  margin-right: auto;
+  grid-template-columns: auto;
+}
+
+.divCeoFotografije {
+  background-color: white;
+  border-radius: 10px;
+  margin-top: 15px;
+}
+
+.divNaslov {
+  display: flex;
+}
+
+.divNaslov > h1 {
+  margin-top: 15px;
+  margin-left: 15px;
+  font: bold 20px Tahoma;
+}
+
+.divDoleFoto {
+  display: grid;
+  grid-template-columns: 20% 20% 20% 20% auto;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px;
+}
+
+.divFoto {
+  display: flex;
+}
+
+.divFoto > img {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+}
