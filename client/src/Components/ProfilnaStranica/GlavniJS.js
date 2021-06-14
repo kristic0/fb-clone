@@ -14,16 +14,15 @@ let korisnickoIme = "Nikola Francuski";
 let profilnaSlika ="https://images.unsplash.com/photo-1611316185995-9624c94487d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80";
 let naslovnaSlika = "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 
-
-const GlavniJS =()=>{
+const GlavniJS= () => {
     
-const [stanje, setStanje] = useState(1);
+    const [stanje, setStanje] = useState(1);
 
-const kojeStanje = (index) =>{
-     setStanje(index);
- }
+    const kojeStanje = (index) =>{
+        setStanje(index);
+    }
+
     return(
-
         <div className="glavniDiv">
             <div className="gornjiDeo">
             <div className="divBeo">
@@ -49,7 +48,7 @@ const kojeStanje = (index) =>{
             </div>
             <div className="donjiDeo">
                 <div className={stanje === 1 ? "aktivno" : "neaktivno"}>
-                    <ObjaveTab/>
+                    <ObjaveTab setStanjeParentComponent = { setStanje } />
                 </div>
                 <div className={stanje === 2 ? "aktivno" : "neaktivno"}>
                     <Informacije/>
