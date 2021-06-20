@@ -23,8 +23,8 @@ import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
 
 import "./App.css";
-import Sidebar from "./Components/Sidebar";
-import Feed from "./Components/Feed";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import Feed from "./Components/Feed/Feed";
 import Header from "./Components/Header";
 import ChatApp from "./Components/Chat/ChatApp";
 

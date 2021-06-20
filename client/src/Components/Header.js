@@ -17,7 +17,7 @@ import {ReactComponent as Katanac} from "../icons/154684.svg";
 import {ReactComponent as Upitnik} from "../icons/question-mark-svgrepo-com.svg";
 
 
-import "../Header.css";
+import "./Header.css";
 
 const Header = () => {
     return (

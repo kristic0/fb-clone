@@ -18,8 +18,8 @@ const Sidebar = () => {
 
     return (
         <div className='sidebar'>
-            <SidebarRow src='https://artprojectsforkids.org/wp-content/uploads/2020/07/Big-Eyes-Post-782x1024.jpg'
-            title='Frankie' />
+            <SidebarRow src='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
+            title='Shinguyaba' />
             <SidebarRow Icon={LocalHospitalIcon}
             title='COVID-19 Information Center' />
 
