@@ -20,4 +20,6 @@
 
 .app__body {
   display: flex;
+  padding-top: 10px;
+  background-color: #eff2f5;
 }

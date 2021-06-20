@@ -1,10 +1,12 @@
-import React from 'react'
-import StoryReel from './StoryReel'
+import React, { useState } from 'react'
+import StoryReel from './Story/StoryReel'
 import MessageSender from './MessageSender'
 import './Feed.css'
 import Post from './Post'
 
 const Feed = () => {
+    const [profilePic, setProfilePic] = useState('')
+    const [postsData, setPostsData] = useState([])
     return (
         <div className='feed'>
             <StoryReel />
