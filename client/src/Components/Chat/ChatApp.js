@@ -16,7 +16,7 @@ class ChatApp extends React.Component {
     this.uname = Math.random(10).toString();
 
     // Connect to the server
-    this.socket = io("http://localhost:4001", {
+    this.socket = io("http://localhost:4000", {
       query: `username=${this.uname}`,
     }).connect();
 

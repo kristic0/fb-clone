@@ -9,7 +9,7 @@ import TuneIcon from '@material-ui/icons/Tune';
 import SettingsIcon from '@material-ui/icons/Settings';
 import ReorderIcon from '@material-ui/icons/Reorder';
 import ViewModuleIcon from '@material-ui/icons/ViewModule';
-import Post from "../Post";
+import Post from "../Feed/Post";
 import "./ObjaveTab.css";
 
 let mesto = "Zrenjanin";

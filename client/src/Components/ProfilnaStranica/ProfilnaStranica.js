@@ -4,7 +4,7 @@ import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import CreateIcon from '@material-ui/icons/Create';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
-import "./GlavniCSS.css";
+import "./ProfilnaStranica.css";
 import ObjaveTab from "./ObjaveTab.js";
 import Informacije from "./Informacije.js";
 import Prijatelji from "./Prijatelji.js";
@@ -14,7 +14,7 @@ let korisnickoIme = "Nikola Francuski";
 let profilnaSlika ="https://images.unsplash.com/photo-1611316185995-9624c94487d1?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1534&q=80";
 let naslovnaSlika = "https://images.unsplash.com/photo-1493246507139-91e8fad9978e?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=750&q=80";
 
-const GlavniJS= () => {
+const ProfilnaStranica= () => {
     
     const [stanje, setStanje] = useState(1);
 
@@ -67,4 +67,4 @@ const GlavniJS= () => {
 
 
 
-export default GlavniJS;
+export default ProfilnaStranica;

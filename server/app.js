@@ -86,7 +86,7 @@ io.on("connection", (socket) => {
   });
 });
 
-httpServer.listen(4001, () => {
+httpServer.listen(process.env.PORT, () => {
   console.log(`Server is running on: http://localhost:${process.env.PORT}`);
   console.log(
     `Swagger running on: http://localhost:${process.env.PORT}/api-docs`

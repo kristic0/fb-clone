@@ -23,10 +23,11 @@ import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
 
 import "./App.css";
-import Sidebar from "./Components/Sidebar";
-import Feed from "./Components/Feed";
+import Sidebar from "./Components/Sidebar/Sidebar";
+import Feed from "./Components/Feed/Feed";
 import Header from "./Components/Header";
-import GlavniJS from "./Components/ProfilnaStranica/GlavniJS";
+import ProfilnaStranica from "./Components/ProfilnaStranica/ProfilnaStranica";
+import ChatApp from "./Components/Chat/ChatApp";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <div className="app__body">
               <Sidebar />
               <Feed />
+              <ChatApp />
           </div>
       </div>
   );
