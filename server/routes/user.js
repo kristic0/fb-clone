@@ -6,7 +6,6 @@ import { Image } from "../models/Image.js";
 
 import { connection } from "../helpers/db.js";
 import bCrypt from "bcrypt";
-import jwt from "jsonwebtoken";
 import { upload } from "../helpers/multerSettings.js";
 import { addImageIdToUser, findUserImageIds } from "../helpers/routerHelper.js";
 import fs from "fs";
@@ -16,7 +15,7 @@ import {
   addFriendValidation,
   getFriendRequests,
   uploadImageValidation,
-  getImageValidation,
+  isUserIdSent,
   addPostValidation,
   reactToPostValidation,
 } from "../helpers/validation.js";
@@ -61,10 +60,19 @@ router.get("/search", async (req, res) => {
  *   post:
  *     tags:
  *        - Korisnik
- *     description: Endpoint za dodavanje posta na zid
+ *     description: Dodaj post
+ *     parameters:
+ *       - name: userid
+ *         description: Id korisnika
+ *         required: true
+ *         type: string
+ *       - name: content
+ *         description: Tekst posta (max 500char)
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
- *         description: Ukoliko je prosledjeni post validan
+ *         description: Ukoliko su validni parametri prosledjeni
  */
 
 router.post("/addPost", async (req, res) => {
@@ -87,8 +95,88 @@ router.post("/addPost", async (req, res) => {
     const userSaveRes = user.save();
     if (!userSaveRes) return res.status(400).send("User err");
 
-    return res.status(201).json(user);
+    return res.status(201).send("Successfully posted");
   });
+});
+
+/**
+ * @openapi
+ * /commentOnPost:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Dodaj post
+ *     parameters:
+ *       - name: userid
+ *         description: Id korisnika
+ *         required: true
+ *         type: string
+ *       - name: comment
+ *         description: Komentar
+ *         required: true
+ *         type: string
+ *       - name: postId
+ *         description: Id posta koji se komentarise
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
+router.post("/commentOnPost", async (req, res) => {
+  const userId = req.body.userId;
+  const postId = req.body.postId;
+  const comment = req.body.comment;
+
+  await Post.findOne({ _id: postId }, async (err, post) => {
+    if (err) res.send(err);
+
+    let newComment = {
+      userId: userId,
+      comment: comment,
+    };
+
+    post.comments = [...post.comments, newComment];
+
+    const savePost = post.save();
+    if (!savePost) return res.status(400).send("Couldnt save comment");
+
+    return res.status(201).send("Success");
+  });
+});
+
+/**
+ * @openapi
+ * /addPost:
+ *   post:
+ *     tags:
+ *        - Korisnik
+ *     description: Get sve postove korisnika
+ *     parameters:
+ *       - name: userId
+ *         description: Id korisnika
+ *         required: true
+ *         type: string
+ *     responses:
+ *       200:
+ *         description: Ukoliko su validni parametri prosledjeni
+ */
+
+router.get("/getAllUserPosts", async (req, res) => {
+  const { error } = isUserIdSent(req.body);
+  if (error) return res.status(400).send("Bad request");
+
+  const userId = req.body.userId;
+  const allPostIds = await User.findOne({ _id: userId }, { posts: 1 });
+
+  let allPostsJson = [];
+  for (let i = 0; i < allPostIds.posts.length; i++) {
+    let res = await Post.findById(allPostIds.posts[i]);
+    allPostsJson.push(res);
+  }
+
+  return res.status(201).json(allPostsJson);
 });
 
 /**
@@ -189,7 +277,7 @@ router.post("/uploadImage", upload.single("img"), async (req, res) => {
  */
 
 router.get("/images", async (req, res) => {
-  const { error } = getImageValidation(req.body);
+  const { error } = isUserIdSent(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   let imageIdsRes = await findUserImageIds(req.body.userId);
@@ -224,7 +312,16 @@ router.get("/images", async (req, res) => {
  *   post:
  *     tags:
  *        - Korisnik
- *     description: Registracija
+ *     description: Dodaj post
+ *     parameters:
+ *       - name: email
+ *         description: Email
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: Sifra
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: Ukoliko su validni parametri prosledjeni
@@ -260,6 +357,15 @@ router.post("/register", async (req, res) => {
  *     tags:
  *        - Korisnik
  *     description: Login
+ *     parameters:
+ *       - name: email
+ *         description: Korisnicki email
+ *         required: true
+ *         type: string
+ *       - name: password
+ *         description: Korisnicka sifra
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: Ukoliko su validni parametri prosledjeni
@@ -276,11 +382,7 @@ router.post("/login", async (req, res) => {
   if (!validPassword)
     return res.status(400).send("Invalid username or password");
 
-  const accessToken = jwt.sign(
-    { _id: user.id },
-    process.env.ACCESS_TOKEN_SECRET
-  );
-  return res.status(200).header("auth-token", accessToken).send("Success!");
+  return res.status(200).json(user);
 });
 
 // ============= FRIENDS SECTION ============= //
@@ -292,6 +394,15 @@ router.post("/login", async (req, res) => {
  *     tags:
  *        - Korisnik
  *     description: Dodaj prijatelja
+ *     parameters:
+ *       - name: userid
+ *         description: Id korisnika
+ *         required: true
+ *         type: string
+ *       - name: friendId
+ *         description: Id korisnika kojem se salje zahtev
+ *         required: true
+ *         type: string
  *     responses:
  *       200:
  *         description: Ukoliko su validni parametri prosledjeni

@@ -1,4 +1,4 @@
-import Joi from 'joi';
+import Joi from "joi";
 
 export const registerValidation = (body) => {
   const schema = Joi.object({
@@ -48,7 +48,7 @@ export const uploadImageValidation = (body) => {
   return schema.validate(body);
 };
 
-export const getImageValidation = (body) => {
+export const isUserIdSent = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
   });
@@ -58,7 +58,7 @@ export const getImageValidation = (body) => {
 export const addPostValidation = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
-    content: Joi.string().max(500),
+    content: Joi.string().max(500).required(),
   });
   return schema.validate(body);
 };
@@ -71,4 +71,3 @@ export const reactToPostValidation = (body) => {
   });
   return schema.validate(body);
 };
-

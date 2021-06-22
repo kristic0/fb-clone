@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 // // prettier-ignore
 // const ReactionEnum = Object.freeze({
@@ -12,15 +12,23 @@ import mongoose from 'mongoose';
 //   });
 // // prettier-ignore-end
 
-export const Post = mongoose.model('Post', new mongoose.Schema({
-  content: {
-    type: String,
-  },
-  reactions: {
-    type: [{ userId: String, reaction: Number }],
-    required: false,
-  },
-  reactionsCount: {
-    type: Number,
-  },
-}), 'post');
+export const Post = mongoose.model(
+  "Post",
+  new mongoose.Schema({
+    content: {
+      type: String,
+    },
+    reactions: {
+      type: [{ userId: String, reaction: Number }],
+      required: false,
+    },
+    reactionsCount: {
+      type: Number,
+    },
+    comments: {
+      type: [{ userId: String, comment: String }],
+      required: false,
+    },
+  }),
+  "post"
+);
