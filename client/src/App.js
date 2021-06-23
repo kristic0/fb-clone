@@ -30,12 +30,10 @@ import GlavniJS from "./Components/ProfilnaStranica/GlavniJS";
 
 function App() {
   return (
-      <div className="App">
-        <Header/>
-        <div className='app__body' >
-        <GlavniJS />
-        </div>
-      </div>
+    <div className="App">
+      <Header />
+      <div className="app__body">{GlavniJS()}</div>
+    </div>
   );
 }
 

@@ -22,9 +22,15 @@
 }
 
 .naslovnaSlika {
+  display: flex;
   width: 900px;
   height: 360px;
   border-radius: 10px;
+}
+
+.naslovnaSlika:hover {
+  filter: grayscale(0.5);
+  cursor: pointer;
 }
 
 @media screen and (max-width: 900px) {
@@ -41,6 +47,11 @@
   width: 180px;
   height: 180px;
   border-radius: 90px;
+}
+
+.profilnaSlika:hover {
+  filter: grayscale(0.5);
+  cursor: pointer;
 }
 
 .korisnickoIme {
@@ -71,10 +82,12 @@
   color: #1877f2;
   border-bottom: 3px solid #1877f2;
   border-radius: 0px;
+  cursor: pointer;
 }
 
 .meniLevo > .li:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .meniLevo > li::selection {
@@ -99,6 +112,7 @@
 
 .meniDesno > li:hover {
   background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
 }
 
 .meniDesno > li::selection {
