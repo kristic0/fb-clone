@@ -26,6 +26,7 @@ import "./App.css";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Feed from "./Components/Feed/Feed";
 import Header from "./Components/Header";
+import FriendsBar from "./Components/FriendsBar/FriendsBar";
 
 function App() {
   
@@ -36,6 +37,7 @@ function App() {
           <div className="app__body">
             <Sidebar />
             <Feed />
+            <FriendsBar />
           </div> 
     </div>
   );

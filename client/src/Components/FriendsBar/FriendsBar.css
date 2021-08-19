@@ -1,0 +1,11 @@
+.friendsBar {
+    padding: 5px 10px;
+    flex: 0.33;
+    max-width: 350px;
+}
+
+.friendsBar>p {
+    margin-left: 10px;
+    font-size: large;
+    font-weight: 650;
+}
