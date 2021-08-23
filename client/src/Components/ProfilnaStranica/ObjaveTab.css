@@ -62,6 +62,7 @@
 
 .izmena:hover {
   background-color: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
 }
 
 .dodavanje {
@@ -93,24 +94,9 @@
   font: 22px Tahoma;
 }
 
-.vrsta {
-  width: 33.3%;
-  display: inline-table;
-  margin-right: -10px;
-  margin-left: 5px;
-}
-
-.kolona {
-  margin-right: 10px;
-  width: 95px;
-  height: 95px;
-  margin: auto;
-  margin-bottom: 10px;
-}
-
-.kolona > img {
-  width: 95px;
-  height: 95px;
+.fotografije > h1:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .razmisljanje {
@@ -307,38 +293,15 @@
   box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
 }
 
-.gridPrijatelji > .kolona {
-  margin-bottom: 10px;
-}
-
 .gridPrijatelji > h1 {
   padding-top: 10px;
   margin-left: 15px;
   font: 22px Tahoma;
 }
 
-.prijateljiVrsta {
-  width: 33.3%;
-  display: inline-table;
-  margin-right: -10px;
-  margin-left: 5px;
-}
-
-.prijateljiKolona {
-  text-align: center;
-  margin-right: 10px;
-  width: 95px;
-  height: 95px;
-  margin: auto;
-  margin-bottom: 10px;
-  padding-bottom: 30px;
-  font-size: 13px;
-}
-
-.prijateljiKolona > img {
-  width: 95px;
-  height: 95px;
-  border-radius: 10px;
+.gridPrijatelji > h1:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .objave {
@@ -348,4 +311,104 @@
   width: 95%;
   margin-top: 15px;
   box-shadow: -3px 3px 3px -4px rgba(0, 0, 0, 0.75);
+}
+
+.fotografijeDiv {
+  display: grid;
+  grid-template-columns: 33% 33% auto;
+  align-items: center;
+  justify-content: center;
+  margin: 0px 10px;
+}
+
+.divFotografija {
+  margin-bottom: 3px;
+}
+
+.divFotografija > img:hover {
+  cursor: pointer;
+}
+
+.divFotografija > img {
+  border-radius: 10px;
+  width: 95px;
+  height: 95px;
+}
+
+.divPrijateljiUObjavama {
+  background-color: white;
+  display: grid;
+  grid-template-columns: 33% 33% auto;
+  margin-top: 10px;
+  justify-items: center;
+  margin: 0px 5px;
+}
+
+.divObjavePrijatelji {
+  border-radius: 10px;
+  margin: 3px 3px 3px 3px;
+}
+
+.divObjavePrijateljiSlika > img {
+  width: 95px;
+  height: 95px;
+  margin-bottom: 3px;
+  border-radius: 10px;
+}
+
+.divObjavePrijateljiIme {
+  text-align: center;
+}
+
+.naslovDialogaIzmena {
+  border-bottom: 1px solid black;
+}
+
+.divDialogIzmena > h2 {
+  font: bold 18px Tahoma;
+}
+
+.divDialogIzmena > h3 {
+  font: 16px Tahoma;
+  margin-top: 0px;
+}
+
+.divDialogFotografija {
+  display: grid;
+  grid-template-columns: 70% auto;
+  grid-template-areas: "slika komentari";
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0px;
+}
+
+.divDialogFotografijaSlika {
+  grid-area: slika;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.divDialogFotografijaSlika > img {
+  position: fixed;
+  max-height: 100%;
+}
+
+.IskljuciDialogFotografija {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 101;
+  color: white;
+}
+
+.IskljuciDialogFotografija:hover {
+  cursor: pointer;
+}
+
+.divDialogFotografijaKomentari {
+  grid-area: komentari;
 }

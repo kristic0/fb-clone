@@ -70,3 +70,13 @@
 .divPrijateljIme {
   margin-left: 20px;
 }
+
+.divPrijateljSlika:hover {
+  cursor: pointer;
+  filter: grayscale(0.5);
+}
+
+.divPrijateljIme:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}
