@@ -21,23 +21,28 @@ import { ReactComponent as Upitnik } from "./icons/question-mark-svgrepo-com.svg
 
 import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
+import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
+
+
+import { Link } from 'react-router-dom';
 
 import "./App.css";
-import Sidebar from "./Components/Sidebar/Sidebar";
-import Feed from "./Components/Feed/Feed";
+import Login from './Login.js';
+import Sidebar from "./Components/Sidebar";
+import Feed from "./Components/Feed";
 import Header from "./Components/Header";
 
 function App() {
-  
   return (
-    <div className="App">
-      
-          <Header />
-          <div className="app__body">
-            <Sidebar />
-            <Feed />
-          </div> 
-    </div>
+      <div className="App">
+      <Router>
+        <Switch>
+          <Route path = "/login">
+            <Login/>
+          </Route>
+        </Switch>
+      </Router>
+      </div>
   );
 }
 
