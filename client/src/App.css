@@ -19,7 +19,8 @@
 }
 
 .app__body {
-  display: flex;
+  display: grid;
+  grid-template-columns: 16% auto 16%;
   padding-top: 10px;
   background-color: #eff2f5;
 }

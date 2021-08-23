@@ -1,4 +1,7 @@
 .feed {
-    width: 650px;
     margin: auto;
+    width: 650px;
+    display: grid;
+    grid-template-columns: auto;
+       
 }

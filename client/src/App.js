@@ -26,19 +26,18 @@ import "./App.css";
 import Sidebar from "./Components/Sidebar/Sidebar";
 import Feed from "./Components/Feed/Feed";
 import Header from "./Components/Header";
-import ProfilnaStranica from "./Components/ProfilnaStranica/ProfilnaStranica";
-import ChatApp from "./Components/Chat/ChatApp";
 
 function App() {
+  
   return (
-      <div className="App">
+    <div className="App">
+      
           <Header />
           <div className="app__body">
-              <Sidebar />
-              <Feed />
-              <ChatApp />
-          </div>
-      </div>
+            <Sidebar />
+            <Feed />
+          </div> 
+    </div>
   );
 }
 
