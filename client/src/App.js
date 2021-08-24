@@ -26,22 +26,28 @@ import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import { Link } from 'react-router-dom';
 
-import "./App.css";
+import './App.css';
 import Login from './Login.js';
-import Sidebar from "./Components/Sidebar";
-import Feed from "./Components/Feed";
-import Header from "./Components/Header";
+import Header from './Components/Header.js';
+import BocnaTraka from './Components/BocnaTraka/BocnaTraka';
+import Novosti from './Components/Novosti/Novosti.js';
+import PrijateljiTraka from './Components/PrijateljiTraka/PrijateljiTraka.js';
+import MainPage from "./Components/Novosti/MainPage";
+import PostZaLog from "./PostZaLog";
+
+
 
 function App() {
   return (
       <div className="App">
       <Router>
         <Switch>
-          <Route path = "/login">
-            <Login/>
-          </Route>
+          <Route path="/Login" component={PostZaLog}/>
+          <Route path="/Novosti" component={MainPage}/>
+         
         </Switch>
       </Router>
+ 
       </div>
   );
 }

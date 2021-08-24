@@ -1,21 +1,21 @@
-.sidebarRow {
+.bocnaTrakaRed {
     display: flex;
     align-items: center;
     padding: 10px;
     cursor: pointer;
 }
 
-.sidebarRow:hover {
+.bocnaTrakaRed:hover {
     background: lightgray;
     border-radius: 10px;
 }
 
-.sidebarRow>p {
+.bocnaTrakaRed>p {
     margin-left: 20px;
     font-weight: 600;
 }
 
-.sidebarRow>.MuiSvgIcon-root {
+.bocnaTrakaRed>.MuiSvgIcon-root {
     font-size:  xx-large;
     color: #2e81f4;
 }

@@ -1,16 +1,16 @@
-.friendsBarRow {
+.prijateljiTrakaRed {
     display: flex;
     align-items: center;
     padding: 10px;
     cursor: pointer;
 }
 
-.frirendsBarRow:hover {
+.prijateljiTrakaRed:hover {
     background: lightgray;
     border-radius: 10px;
 }
 
-.friendsBarRow>p {
+.prijateljiTrakaRed>p {
     margin-left: 20px;
     font-weight: 600;
 }
