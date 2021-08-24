@@ -24,7 +24,7 @@ const GlavniJS = () => {
 
   const [izvorSlike, setIzvorSlike] = useState(false);
 
-  const [idProfila, setIdProfila] = useState(1);
+  const [idProfila, setIdProfila] = useState(1); //localStorage.getItem("korisnicki id");
 
   const kojeStanje = (index) => {
     setStanje(index);
@@ -131,12 +131,12 @@ const GlavniJS = () => {
                 Još <ArrowDropDownIcon />
               </li>
             </ul>
-            <ul className="meniDesno">
+            <ul className={1 === 1 ? "meniDesno" : "hide"}>
               <li className="pricaLi">
                 <AddCircleIcon />
                 Dodajte u pricu
               </li>
-              <li className="izmenaLi">
+              <li className="izmenaLi" onClick={() => kojeStanje(2)}>
                 <CreateIcon />
                 Izmenite profil
               </li>
@@ -149,7 +149,11 @@ const GlavniJS = () => {
       </div>
       <div className="donjiDeo">
         <div className={stanje === 1 ? "aktivno" : "neaktivno"}>
-          <ObjaveTab setStanjeParentComponent={setStanje} />
+          <ObjaveTab
+            setIdProfilaParentComponent={setIdProfila}
+            setStanjeParentComponent={setStanje}
+            getIdProfila={idProfila}
+          />
         </div>
         <div className={stanje === 2 ? "aktivno" : "neaktivno"}>
           <Informacije />

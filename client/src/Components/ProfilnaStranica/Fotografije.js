@@ -23,7 +23,8 @@ const Fotografije = () => {
   let prviFilter = [];
 
   for (let i = 0; i < nizSlika.length; i++) {
-    if (nizSlika[i].id === 1) {
+    if (nizSlika[i].id === 2) {
+      //promeni ovde
       prviFilter = nizSlika[i].slike;
     }
   }

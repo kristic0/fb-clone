@@ -19,6 +19,7 @@
 
 .divListe {
   display: flex;
+  justify-content: center;
 }
 
 .naslovnaSlika {
@@ -118,6 +119,10 @@
 .meniDesno > li::selection {
   border-bottom: 1px solid #1877f2;
   color: #1877f2;
+}
+
+.hide{
+  display: none;
 }
 
 .meniDesno > .pricaLi {
