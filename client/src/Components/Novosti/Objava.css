@@ -1,4 +1,4 @@
-.post {
+.objava {
     width: 100%;
     margin-top: 15px;
     border-radius: 15px;
@@ -6,55 +6,75 @@
     box-shadow: 0px 5px 7px -7px rgba(0, 0, 0, 0.75);
 }
 
-.post__image>img {
+.objava__slika>img {
     width: 100%;
 }
 
-.post__top {
+.objava__vrh {
     display: flex;
     position: relative;
     align-items: center;
     padding: 15px;
 }
 
-.post__avatar {
+.objava__avatar {
     margin-right: 10px;
 }
 
-.post__topInfo>h3 {
+.objava__vrhInfo>h3 {
     font-size: medium;
 }
 
-.post__topInfo>p {
+.objava__vrhInfo>p {
     font-size: small;
     color: gray;
 }
 
-.post__bottom {
+.objava__dno {
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 15px 25px;
 }
 
-.post__options {
-    padding:  10px;
+.objava__dugmad {
+    
     border-top: 1px solid lightgray;
     display: flex;
     justify-content: space-evenly;
     font-size: medium;
     color: gray;
     cursor: pointer;
-    padding: 15px;
+    padding: 5px;
+
 }
 
-.post__option {
-    display: flex;
+.objava__dugme {
+    /* display: flex;
     align-items: center;
     justify-content: center;
     padding: 5px;
-    float: 1;
+    float: 1; */
+
+    padding: 15px;
+    display: flex;
+    align-items: center;
+    color: gray;
+    margin: 0px 30px;
 }
 
-.post__option>p {
+.objava__dugme>p {
     margin-left: 10px;
+}
+
+.objava__dugme:hover {
+    background-color: #eff2f5;
+    border-radius: 20px;
+}
+
+.objava__dugme:hover>p {
+    color: #2e81f4;
+}
+
+.objava__dugme:hover>.MuiSvgIcon-root {
+    color: #2e81f4;
 }

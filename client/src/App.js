@@ -21,32 +21,35 @@ import { ReactComponent as Upitnik } from "./icons/question-mark-svgrepo-com.svg
 
 import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-//import { Link } from "react-router-dom";
 
-import "./App.css";
-import Login from "./Login.js";
-import GlavniJS from "./Components/ProfilnaStranica/GlavniJS";
-//import Sidebar from "./Components/Sidebar";
-//import Feed from "./Components/Feed";
-import Header from "./Components/Header";
+import { Link } from 'react-router-dom';
+
+import './App.css';
+import Login from './Login.js';
+import Header from './Components/Header.js';
+import BocnaTraka from './Components/BocnaTraka/BocnaTraka';
+import Novosti from './Components/Novosti/Novosti.js';
+import PrijateljiTraka from './Components/PrijateljiTraka/PrijateljiTraka.js';
+import MainPage from "./Components/Novosti/MainPage";
+import PostZaLog from "./PostZaLog";
+
+
 
 function App() {
   return (
-    <div className="App">
-      {/* <Router>
+      <div className="mainPage">
+      <Router>
         <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
+
+          <Route path="/Login" component={PostZaLog}/>
+          <Route path="/Novosti" component={MainPage}/>
+          <Route path="/" component={PostZaLog} exact/>
         </Switch>
-      </Router> */}
-      <Header />
-      <div className="app__body">
-        <GlavniJS />
+      </Router>
+
       </div>
-    </div>
   );
 }
 

@@ -476,11 +476,11 @@ router.get("/friendRequests", async (req, res) => {
   );
 });
 
-router.post("/getFriend", async (req, res) => {
-  let userId = req.body.userId;
-  let users = await User.find({ _id: userId });
+router.get("/getFriend/:id", async (req, res) => {
+  let userId = req.params.id;
+  let user = await User.findById(userId);
 
-  res.send(users);
+  res.json(user);
 });
 
 export default router;
