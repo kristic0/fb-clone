@@ -66,17 +66,19 @@
   margin-bottom: 10px;
   border-radius: 10px;
 }
-
-.divPrijateljIme {
-  margin-left: 20px;
-}
-
-.divPrijateljSlika:hover {
+.divPrijateljSlika>text:hover {
   cursor: pointer;
   filter: grayscale(0.5);
 }
 
+.divPrijateljIme {
+  margin-left: 20px;
+}
 .divPrijateljIme:hover {
   cursor: pointer;
   text-decoration: underline;
 }
+
+
+
+

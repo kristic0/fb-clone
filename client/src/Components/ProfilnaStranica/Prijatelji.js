@@ -32,7 +32,13 @@ class Prijatelji extends Component {
                     }}
                   />
                 </div>
-                <div className="divPrijateljIme">
+                <div
+                  className="divPrijateljIme"
+                  onClick={() => {
+                    this.props.setIdProfilaParentComponent(prijatelj.id);
+                    this.props.setStanjeParentComponent(1);
+                  }}
+                >
                   {prijatelj.ime + " " + prijatelj.prezime}
                 </div>
               </div>
