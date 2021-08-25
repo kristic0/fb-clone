@@ -59,6 +59,7 @@ export const addPostValidation = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
     content: Joi.string().max(500).required(),
+    imgUrl: Joi.string().max(500),
   });
   return schema.validate(body);
 };

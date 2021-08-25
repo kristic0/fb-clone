@@ -8,7 +8,7 @@ router.get("/", function (req, res) {
   res.send("server is working").status(200);
 });
 
-router.post("/admin/removeUser", verify, async (req, res) => {
+router.post("/admin/removeUser", async (req, res) => {
   const { error } = removeUserValidation(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
@@ -30,14 +30,16 @@ router.get("/admin/allUsers", async (req, res) => {
   };
 
   users.forEach((user) => {
-    allUsers.push({
-      id: user._id,
-      name: user.name,
-    });
+    allUsers.push(user);
+
+    // {
+    //   id: user._id,
+    //   name: user.name,
+    // }
   });
 
   data.allUsers = allUsers;
-  data.count = await connection.db.collection("users").countDocuments();
+  // data.count = await connection.db.collection("users").countDocuments();
 
   res.send(data);
 });

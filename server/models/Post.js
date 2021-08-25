@@ -18,6 +18,9 @@ export const Post = mongoose.model(
     content: {
       type: String,
     },
+    imageUrl: {
+      type: String,
+    },
     reactions: {
       type: [{ userId: String, reaction: Number }],
       required: false,

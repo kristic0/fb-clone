@@ -80,8 +80,10 @@ router.post("/addPost", async (req, res) => {
   if (error) return res.status(400).send(error.details[0].message);
 
   const userId = req.body.userId;
+
   const post = new Post({
     content: req.body.content,
+    imageUrl: req.body.imageUrl,
   });
 
   await User.findOne({ _id: userId }, async (err, user) => {
@@ -95,7 +97,7 @@ router.post("/addPost", async (req, res) => {
     const userSaveRes = user.save();
     if (!userSaveRes) return res.status(400).send("User err");
 
-    return res.status(201).send("Successfully posted");
+    return res.status(201).send(post);
   });
 });
 
@@ -163,7 +165,7 @@ router.post("/commentOnPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.get("/getAllUserPosts", async (req, res) => {
+router.post("/getAllUserPosts", async (req, res) => {
   const { error } = isUserIdSent(req.body);
   if (error) return res.status(400).send("Bad request");
 
@@ -298,7 +300,7 @@ router.get("/images", async (req, res) => {
 
   let data = {
     allImages: allImages,
-    count: await connection.db.collection("pictures").countDocuments(),
+    //count: await connection.db.collection("pictures").countDocuments(),
   };
 
   res.send(data);
@@ -340,11 +342,21 @@ router.post("/register", async (req, res) => {
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
+    profilnaSlika: "",
+    naslovnaSlika: "",
+    osnovneInformacije: {
+      mesto: "",
+      skola: "",
+      posao: "",
+      pol: "",
+      datum: "",
+      jezici: "",
+    },
   });
 
   try {
     const savedUser = await user.save();
-    res.send(savedUser);
+    res.status(200).send(savedUser);
   } catch (error) {
     res.status(400).send(error);
   }
@@ -462,6 +474,13 @@ router.get("/friendRequests", async (req, res) => {
       return res.status(200).json(data);
     }
   );
+});
+
+router.post("/getFriend", async (req, res) => {
+  let userId = req.body.userId;
+  let users = await User.find({ _id: userId });
+
+  res.send(users);
 });
 
 export default router;

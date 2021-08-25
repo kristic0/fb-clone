@@ -31,6 +31,14 @@ const options = {
 dotenv.config();
 
 let app = express();
+app.use(function (req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  next();
+});
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -58,35 +66,35 @@ app.use(function (req, res) {
   res.json({ error: "Route not found" });
 });
 
-io.on("connection", (socket) => {
-  console.log("New user connected");
+// io.on("connection", (socket) => {
+//   console.log("New user connected");
 
-  //default username
-  socket.username = "Anonymous";
+//   //default username
+//   socket.username = "anon";
 
-  //listen on change_username
-  socket.on("change_username", (data) => {
-    socket.username = data.username;
-  });
+//   //listen on change_username
+//   socket.on("change_username", (data) => {
+//     socket.username = data.username;
+//   });
 
-  //listen on new_message
-  socket.on("client:message", (data) => {
-    //broadcast the new message
-    io.sockets.emit("server:message", {
-      message: data.message,
-      username: socket.username,
-    });
+//   //listen on new_message
+//   socket.on("client:message", (data) => {
+//     //broadcast the new message
+//     io.sockets.emit("server:message", {
+//       message: data.message,
+//       username: socket.username,
+//     });
 
-    console.log(data);
-  });
+//     console.log(data);
+//   });
 
-  //listen on typing
-  socket.on("typing", (data) => {
-    socket.broadcast.emit("typing", { username: socket.username });
-  });
-});
+//   //listen on typing
+//   socket.on("typing", (data) => {
+//     socket.broadcast.emit("typing", { username: socket.username });
+//   });
+// });
 
-httpServer.listen(process.env.PORT, () => {
+httpServer.listen(4000, () => {
   console.log(`Server is running on: http://localhost:${process.env.PORT}`);
   console.log(
     `Swagger running on: http://localhost:${process.env.PORT}/api-docs`
