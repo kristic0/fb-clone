@@ -85,3 +85,7 @@
 .header__desni {
     display: flex;
 }
+
+.header__desni>.MuiSvgIcon-root{
+    color: #2e81f4;
+}

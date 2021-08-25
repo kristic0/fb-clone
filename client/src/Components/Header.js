@@ -20,6 +20,7 @@ import {ReactComponent as Upitnik} from "../icons/question-mark-svgrepo-com.svg"
 import "./Header.css";
 
 const Header = () => {
+    let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
     return (
         <div
             className='header'>
@@ -55,12 +56,10 @@ const Header = () => {
 
             <div className="header__desni">
                 <div className="header__info">
-                    <Avatar />
-                    <h4>Pavle</h4>
+                    <Avatar src={logovaniKorisnik.profilnaSlika} />
+                    <h4>{logovaniKorisnik.name}</h4>
 
-                </div>
-
-                <IconButton>
+                    <IconButton>
                     <AddIcon />
                 </IconButton>
 
@@ -71,6 +70,9 @@ const Header = () => {
                 <IconButton>
                     <NotificationsActiveIcon />
                 </IconButton>
+                </div>
+
+                
 
                 <NavItem icon = {<KaretDole/>}>
                     <SpustajuciMeni></SpustajuciMeni>

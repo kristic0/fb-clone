@@ -39,12 +39,13 @@ import PostZaLog from "./PostZaLog";
 
 function App() {
   return (
-      <div className="App">
+      <div className="mainPage">
       <Router>
         <Switch>
+         
           <Route path="/Login" component={PostZaLog}/>
           <Route path="/Novosti" component={MainPage}/>
-         
+          <Route path="/" component={PostZaLog} exact/>
         </Switch>
       </Router>
  

@@ -464,4 +464,11 @@ router.get("/friendRequests", async (req, res) => {
   );
 });
 
+router.get("/getFriend/:id", async (req, res) => {
+  let userId = req.params.id;
+  let user = await User.findById(userId);
+
+  res.json(user);
+});
+
 export default router;

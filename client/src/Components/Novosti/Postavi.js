@@ -11,8 +11,9 @@ const Postavi = () => {
 
   const [unos, postaviUnos] = useState("");
   const [slika, postaviSliku] = useState("");
-
-
+  let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -28,7 +29,7 @@ const Postavi = () => {
   return (
     <div className="postavi">
       <div className="postavi__vrh">
-        <Avatar src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80" />
+        <Avatar src={logovaniKorisnik.profilnaSlika} />
         <form>
           <input
             type="text"
