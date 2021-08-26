@@ -20,7 +20,7 @@ const Postavi = () => {
     let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
 
     //let vreme = new Date().toLocaleString()
-    axios.post('/user/addPost', logovaniKorisnik._id, content, slika )
+    axios.post('/korisnik/dodajPost', logovaniKorisnik._id, content, slika )
     .then(res => {
       console.log(res);
     })
@@ -40,7 +40,7 @@ const Postavi = () => {
             type="text"
             className="postavi__unos"
             placeholder="O čemu razmišljate?"
-            value={unos}
+            value={content}
             onChange={(e) => postaviContent(e.target.value)}
           />
           <input

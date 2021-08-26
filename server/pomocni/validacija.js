@@ -42,7 +42,7 @@ export const getZahteveZaPrijateljaValidacija = (body) => {
 
 export const uploadSlikeValidacija = (body) => {
   const schema = Joi.object({
-    userId: Joi.string().required(),
+    korisnickiId: Joi.string().required(),
     img: Joi.any(),
   });
   return schema.validate(body);
@@ -50,14 +50,14 @@ export const uploadSlikeValidacija = (body) => {
 
 export const daLiJePoslatIdKorisnika = (body) => {
   const schema = Joi.object({
-    userId: Joi.string().required(),
+    korisnickiId: Joi.string().required(),
   });
   return schema.validate(body);
 };
 
 export const dodajPostValidacija = (body) => {
   const schema = Joi.object({
-    userId: Joi.string().required(),
+    korisnickiId: Joi.string().required(),
     content: Joi.string().max(500).required(),
     imgUrl: Joi.string().max(500),
   });
@@ -67,7 +67,7 @@ export const dodajPostValidacija = (body) => {
 export const reagujNaPostValidacija = (body) => {
   const schema = Joi.object({
     postId: Joi.string().required(),
-    userId: Joi.string().required(),
+    korisnickiId: Joi.string().required(),
     reaction: Joi.number().required(),
   });
   return schema.validate(body);

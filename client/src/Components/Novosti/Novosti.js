@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import "./Novosti.css";
 import Objava from "./Objava";
 import Postavi from "./Postavi";
 import PricaPregled from "./Prica/PricaPregled";
+import axios from "axios";
 
 const Novosti = () => {
     const [postovi, postaviPostove] = useState([]);
@@ -15,7 +16,7 @@ const Novosti = () => {
       ).friends;
       for (let i = 0; i < listaPrijatelja.length; i++) {
         axios
-          .get(`/user/getAllUserPosts/${listaPrijatelja[i]}`)
+          .get(`/korisnik/getSvePostoveKorisnika/${listaPrijatelja[i]}`)
           .then((response) =>
             postaviPostove((postoviKorisnika) => [...postoviKorisnika, response.data])
           );

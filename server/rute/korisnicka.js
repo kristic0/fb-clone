@@ -87,6 +87,7 @@ router.post("/dodajPost", async (req, res) => {
   const post = new Post({
     content: req.body.content,
     imageUrl: req.body.imageUrl,
+    time: new Date(),
   });
 
   await Korisnik.findOne({ _id: korisnickiId }, async (err, korisnik) => {
@@ -169,21 +170,24 @@ router.post("/komentarisiNaPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/getSvePostoveKorisnika", async (req, res) => {
-  const { error } = daLiJePoslatIdKorisnika(req.body);
-  if (error) return res.status(400).send("Los zahtev");
+router.get("/getSvePostoveKorisnika/:id", async (req, res) => {
+  let korisnickiId = req.params.id;
 
-  const korisnickiId = req.body.korisnickiId;
-  const svihPostovaIdevi = await Korisnik.findOne(
-    { _id: userId },
-    { posts: 1 }
+  const idPostovaIdodatneInformacije = await Korisnik.findOne(
+    { _id: korisnickiId },
+    { posts: 1, profilnaSlika: 1, name: 1 }
   );
 
   let sviPostoviJson = [];
-  for (let i = 0; i < svihPostovaIdevi.posts.length; i++) {
-    let post = await Post.findById(svihPostovaIdevi.posts[i]);
+  for (let i = 0; i < idPostovaIdodatneInformacije.posts.length; i++) {
+    let post = await Post.findById(idPostovaIdodatneInformacije.posts[i]);
     sviPostoviJson.push(post);
   }
+
+  sviPostoviJson.push(
+    idPostovaIdodatneInformacije.name,
+    idPostovaIdodatneInformacije.profilnaSlika
+  );
 
   return res.status(201).json(sviPostoviJson);
 });
@@ -495,7 +499,7 @@ router.get("/zahteviZaPrijatelja", async (req, res) => {
   );
 });
 
-router.get("/getFriend/:id", async (req, res) => {
+router.get("/getPrijatelja/:id", async (req, res) => {
   let userId = req.params.id;
   let user = await Korisnik.findById(userId);
 

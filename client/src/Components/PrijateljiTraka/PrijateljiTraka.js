@@ -16,7 +16,7 @@ const PrijateljiTraka = () => {
       ).friends;
       for (let i = 0; i < listaPrijatelja.length; i++) {
         axios
-          .get(`/user/getFriend/${listaPrijatelja[i]}`)
+          .get(`/korisnik/getPrijatelja/${listaPrijatelja[i]}`)
           .then((response) =>
             postaviPrijatelje((prijatelj) => [...prijatelj, response.data])
           );

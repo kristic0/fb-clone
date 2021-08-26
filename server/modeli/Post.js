@@ -32,6 +32,10 @@ export const Post = mongoose.model(
       type: [{ userId: String, comment: String }],
       required: false,
     },
+    time: {
+      type: String,
+      required: false,
+    },
   }),
   "post"
 );
