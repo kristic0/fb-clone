@@ -15,16 +15,18 @@ import ObjaveTab from "./ObjaveTab.js";
 import Informacije from "./Informacije.js";
 import Prijatelji from "./Prijatelji.js";
 import Fotografije from "./Fotografije.js";
-import baza from "./databaseSimulation.json";
+import Header from "../Header";
 
-const GlavniJS = () => {
+ export const GlavniJS = () => {
+  let trenutni = JSON.parse(localStorage.getItem("trenutniKorisnik"));
+
   const [stanje, setStanje] = useState(1);
 
   const [prikazSlike, setPrikazSlike] = useState(false);
 
   const [izvorSlike, setIzvorSlike] = useState(false);
 
-  const [idProfila, setIdProfila] = useState(1); //localStorage.getItem("korisnicki id");
+  const [idProfila, setIdProfila] = useState(trenutni); //localStorage.getItem("korisnicki id");
 
   const kojeStanje = (index) => {
     setStanje(index);
@@ -38,16 +40,19 @@ const GlavniJS = () => {
     setIzvorSlike(param);
   };
 
-  let korisnik = [];
+  // let korisnik = [];
 
-  for (let i = 0; i < baza.length; i++) {
-    if (baza[i].id === idProfila) {
-      korisnik = baza[i];
-    }
-  }
+  // for (let i = 0; i < baza.length; i++) {
+  //   if (baza[i].id === idProfila) {
+  //     korisnik = baza[i];
+  //   }
+  // }
 
   return (
     <div className="glavniDiv">
+      <div>
+        <Header />
+      </div>
       <div>
         <Dialog
           fullScreen
@@ -84,26 +89,24 @@ const GlavniJS = () => {
         <div className="divBeo">
           <img
             className="naslovnaSlika"
-            src={korisnik.naslovnaSlika}
+            src={trenutni.naslovnaSlika}
             alt="Naslovna Slika"
             onClick={() => {
               prikaziSliku(true);
-              postaviIzvorSlike(korisnik.naslovnaSlika);
+              postaviIzvorSlike(trenutni.naslovnaSlika);
             }}
           />
 
           <img
             className="profilnaSlika"
-            src={korisnik.profilnaSlika}
+            src={trenutni.profilnaSlika}
             alt="Profilna Slika"
             onClick={() => {
               prikaziSliku(true);
-              postaviIzvorSlike(korisnik.profilnaSlika);
+              postaviIzvorSlike(trenutni.profilnaSlika);
             }}
           />
-          <h1 className="korisnickoIme">
-            {korisnik.ime + " " + korisnik.prezime}
-          </h1>
+          <h1 className="korisnickoIme">{trenutni.name}</h1>
           <div className="divListe">
             <ul className="meniLevo">
               <li

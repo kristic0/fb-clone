@@ -1,6 +1,7 @@
 {
   "dependencies": {
     "react-photo-gallery": "^8.0.0",
-    "react-router-dom": "^5.2.0"
+    "react-router-dom": "^5.2.0",
+    "react-router-redux": "^5.0.0-alpha.9"
   }
 }
