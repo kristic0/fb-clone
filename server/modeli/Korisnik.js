@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export const User = mongoose.model(
+export const Korisnik = mongoose.model(
   "User",
   new mongoose.Schema({
     name: {

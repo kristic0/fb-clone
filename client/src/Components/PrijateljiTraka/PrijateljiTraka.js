@@ -17,7 +17,7 @@ const PrijateljiTraka = () => {
     await Promise.all(
       listaPrijatelja.map(async (prijateljId) => {
         const { data } = await axios.get(`/user/getFriend/${prijateljId}`);
-        console.log(data.naslovnaSlika);
+        console.log(data.profilnaSlika);
       })
     );
   })();

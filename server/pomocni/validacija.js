@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-export const registerValidation = (body) => {
+export const registracijaValidacija = (body) => {
   const schema = Joi.object({
     name: Joi.string().min(3).required(),
     email: Joi.string().min(6).required().email(),
@@ -9,7 +9,7 @@ export const registerValidation = (body) => {
   return schema.validate(body);
 };
 
-export const loginValidation = (body) => {
+export const loginValidacija = (body) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     password: Joi.string().min(6).required(),
@@ -17,7 +17,7 @@ export const loginValidation = (body) => {
   return schema.validate(body);
 };
 
-export const removeUserValidation = (body) => {
+export const obrisiKorisnikaValidacija = (body) => {
   const schema = Joi.object({
     email: Joi.string().min(6).required().email(),
     removeUserEmail: Joi.string().min(3).required(),
@@ -25,7 +25,7 @@ export const removeUserValidation = (body) => {
   return schema.validate(body);
 };
 
-export const addFriendValidation = (body) => {
+export const dodajPrijateljaValidacija = (body) => {
   const schema = Joi.object({
     id: Joi.string().required(),
     friendId: Joi.string().required(),
@@ -33,14 +33,14 @@ export const addFriendValidation = (body) => {
   return schema.validate(body);
 };
 
-export const getFriendRequests = (body) => {
+export const getZahteveZaPrijateljaValidacija = (body) => {
   const schema = Joi.object({
     id: Joi.string().required(),
   });
   return schema.validate(body);
 };
 
-export const uploadImageValidation = (body) => {
+export const uploadSlikeValidacija = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
     img: Joi.any(),
@@ -48,14 +48,14 @@ export const uploadImageValidation = (body) => {
   return schema.validate(body);
 };
 
-export const isUserIdSent = (body) => {
+export const daLiJePoslatIdKorisnika = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
   });
   return schema.validate(body);
 };
 
-export const addPostValidation = (body) => {
+export const dodajPostValidacija = (body) => {
   const schema = Joi.object({
     userId: Joi.string().required(),
     content: Joi.string().max(500).required(),
@@ -64,7 +64,7 @@ export const addPostValidation = (body) => {
   return schema.validate(body);
 };
 
-export const reactToPostValidation = (body) => {
+export const reagujNaPostValidacija = (body) => {
   const schema = Joi.object({
     postId: Joi.string().required(),
     userId: Joi.string().required(),

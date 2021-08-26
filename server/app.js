@@ -3,15 +3,14 @@ import express from "express";
 import fs from "fs";
 import swaggerUI from "swagger-ui-express";
 import path from "path";
-import { connection } from "./helpers/db.js";
+import { connection } from "./pomocni/baza.js";
 import dotenv from "dotenv";
-import indexRouter from "./routes/index.js";
-import userRouter from "./routes/user.js";
-import chatRouter from "./routes/chat.js";
+import indexRouter from "./rute/index.js";
+import userRouter from "./rute/korisnicka.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 
-const options = {
+const opcije = {
   definition: {
     openapi: "3.0.0",
     info: {
@@ -44,60 +43,27 @@ app.use(express.urlencoded({ extended: true }));
 
 const httpServer = createServer(app);
 
-const io = new Server(httpServer, {
-  cors: { origin: "*" },
-});
-
-// uploads folder needed for file uploads (multer)
 if (!fs.existsSync("uploads/")) {
   fs.mkdirSync("uploads/");
 } else {
-  console.log("Folder already exists");
+  console.log("Folder vec postoji");
 }
 
+// povezivanje ruta za aplikacijom
 app.use("/", indexRouter);
-app.use("/user", userRouter);
-app.use("/chat", chatRouter);
-app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsdoc(options)));
+app.use("/korisnik", userRouter);
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerJsdoc(opcije)));
 
-// catch 404 and forward to error handler
+// error 404 resavanje
 app.use(function (req, res) {
   res.status(404);
-  res.json({ error: "Route not found" });
+  res.json({ error: "Ruta nije pronadjena" });
 });
 
-// io.on("connection", (socket) => {
-//   console.log("New user connected");
-
-//   //default username
-//   socket.username = "anon";
-
-//   //listen on change_username
-//   socket.on("change_username", (data) => {
-//     socket.username = data.username;
-//   });
-
-//   //listen on new_message
-//   socket.on("client:message", (data) => {
-//     //broadcast the new message
-//     io.sockets.emit("server:message", {
-//       message: data.message,
-//       username: socket.username,
-//     });
-
-//     console.log(data);
-//   });
-
-//   //listen on typing
-//   socket.on("typing", (data) => {
-//     socket.broadcast.emit("typing", { username: socket.username });
-//   });
-// });
-
-httpServer.listen(4000, () => {
-  console.log(`Server is running on: http://localhost:${process.env.PORT}`);
+httpServer.listen(process.env.PORT, () => {
+  console.log(`Server je pokrenut na: http://localhost:${process.env.PORT}`);
   console.log(
-    `Swagger running on: http://localhost:${process.env.PORT}/api-docs`
+    `Swagger je pokrenut na: http://localhost:${process.env.PORT}/api-docs`
   );
 });
 

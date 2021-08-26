@@ -1,29 +1,32 @@
 import express from "express";
 const router = express.Router();
 
-import { User } from "../models/User.js";
-import { Image } from "../models/Image.js";
+import { Korisnik } from "../modeli/Korisnik.js";
+import { Image } from "../modeli/Image.js";
 
-import { connection } from "../helpers/db.js";
+import { connection } from "../pomocni/baza.js";
 import bCrypt from "bcrypt";
-import { upload } from "../helpers/multerSettings.js";
-import { addImageIdToUser, findUserImageIds } from "../helpers/routerHelper.js";
+import { upload } from "../pomocni/multerOpcije.js";
+import {
+  dodajSlikuNaKorisnika,
+  pronadjiIdeveSlikaKorisnika,
+} from "../pomocni/pomocnaKlasaZaRute.js";
 import fs from "fs";
 import {
-  registerValidation,
-  loginValidation,
-  addFriendValidation,
-  getFriendRequests,
-  uploadImageValidation,
-  isUserIdSent,
-  addPostValidation,
-  reactToPostValidation,
-} from "../helpers/validation.js";
-import { Post } from "../models/Post.js";
+  registracijaValidacija,
+  loginValidacija,
+  dodajPrijateljaValidacija,
+  getZahteveZaPrijateljaValidacija,
+  uploadSlikeValidacija,
+  daLiJePoslatIdKorisnika,
+  dodajPostValidacija,
+  reagujNaPostValidacija,
+} from "../pomocni/validacija.js";
+import { Post } from "../modeli/Post.js";
 
 /**
  * @openapi
- * /search:
+ * /pretraga:
  *   get:
  *     tags:
  *        - Korisnik
@@ -33,21 +36,21 @@ import { Post } from "../models/Post.js";
  *         description: Vraca listu korisnika za prosledjene parametre
  */
 
-router.get("/search", async (req, res) => {
-  let name = req.body.name;
+router.get("/pretraga", async (req, res) => {
+  let ime = req.body.name;
 
-  await User.find(
+  await Korisnik.find(
     {
       name: {
-        $regex: new RegExp(".*" + name + ".*", "i"),
+        $regex: new RegExp(".*" + ime + ".*", "i"),
       },
     },
     {
       name: 1,
       id: 1,
     },
-    function (err, data) {
-      res.json(data);
+    function (err, podaci) {
+      res.status(200).json(podaci);
     }
   );
 });
@@ -56,7 +59,7 @@ router.get("/search", async (req, res) => {
 
 /**
  * @openapi
- * /addPost:
+ * /dodajPost:
  *   post:
  *     tags:
  *        - Korisnik
@@ -75,27 +78,27 @@ router.get("/search", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/addPost", async (req, res) => {
-  const { error } = addPostValidation(req.body);
+router.post("/dodajPost", async (req, res) => {
+  const { error } = dodajPostValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const userId = req.body.userId;
+  const korisnickiId = req.body.korisnickiId;
 
   const post = new Post({
     content: req.body.content,
     imageUrl: req.body.imageUrl,
   });
 
-  await User.findOne({ _id: userId }, async (err, user) => {
+  await Korisnik.findOne({ _id: korisnickiId }, async (err, korisnik) => {
     if (err) res.send(err);
 
-    const savedPost = await post.save();
-    if (!savedPost) return res.status(400).send("Couldn't save post");
+    const sacuvanPost = await post.save();
+    if (!sacuvanPost) return res.status(500).send("Neuspesno upisivanje");
 
-    user.posts = [...user.posts, savedPost._id];
+    korisnik.posts = [...korisnik.posts, sacuvanPost._id];
 
-    const userSaveRes = user.save();
-    if (!userSaveRes) return res.status(400).send("User err");
+    const azuriranjeKorisnikaRez = korisnik.save();
+    if (!azuriranjeKorisnikaRez) return res.status(500).send("");
 
     return res.status(201).send(post);
   });
@@ -103,7 +106,7 @@ router.post("/addPost", async (req, res) => {
 
 /**
  * @openapi
- * /commentOnPost:
+ * /komentarisiNaPost:
  *   post:
  *     tags:
  *        - Korisnik
@@ -126,25 +129,26 @@ router.post("/addPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/commentOnPost", async (req, res) => {
-  const userId = req.body.userId;
+router.post("/komentarisiNaPost", async (req, res) => {
+  const korisnikId = req.body.korisnikId;
   const postId = req.body.postId;
-  const comment = req.body.comment;
+  const komentar = req.body.komentar;
 
   await Post.findOne({ _id: postId }, async (err, post) => {
     if (err) res.send(err);
 
-    let newComment = {
-      userId: userId,
-      comment: comment,
+    let noviKomentar = {
+      userId: korisnikId,
+      comment: komentar,
     };
 
-    post.comments = [...post.comments, newComment];
+    post.comments = [...post.comments, noviKomentar];
 
-    const savePost = post.save();
-    if (!savePost) return res.status(400).send("Couldnt save comment");
+    const sacuvanPost = post.save();
+    if (!sacuvanPost)
+      return res.status(500).send("Neuspesno postavljanje komentara");
 
-    return res.status(201).send("Success");
+    return res.status(201).send("Uspesno postavljanje");
   });
 });
 
@@ -165,25 +169,28 @@ router.post("/commentOnPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/getAllUserPosts", async (req, res) => {
-  const { error } = isUserIdSent(req.body);
-  if (error) return res.status(400).send("Bad request");
+router.post("/getSvePostoveKorisnika", async (req, res) => {
+  const { error } = daLiJePoslatIdKorisnika(req.body);
+  if (error) return res.status(400).send("Los zahtev");
 
-  const userId = req.body.userId;
-  const allPostIds = await User.findOne({ _id: userId }, { posts: 1 });
+  const korisnickiId = req.body.korisnickiId;
+  const svihPostovaIdevi = await Korisnik.findOne(
+    { _id: userId },
+    { posts: 1 }
+  );
 
-  let allPostsJson = [];
-  for (let i = 0; i < allPostIds.posts.length; i++) {
-    let res = await Post.findById(allPostIds.posts[i]);
-    allPostsJson.push(res);
+  let sviPostoviJson = [];
+  for (let i = 0; i < svihPostovaIdevi.posts.length; i++) {
+    let post = await Post.findById(svihPostovaIdevi.posts[i]);
+    sviPostoviJson.push(post);
   }
 
-  return res.status(201).json(allPostsJson);
+  return res.status(201).json(sviPostoviJson);
 });
 
 /**
  * @openapi
- * /reactToPost:
+ * /staviReakcijuNaPost:
  *   post:
  *     tags:
  *        - Korisnik
@@ -193,35 +200,36 @@ router.post("/getAllUserPosts", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/reactToPost", async (req, res) => {
-  const { error } = reactToPostValidation(req.body);
+router.post("/staviReakcijuNaPost", async (req, res) => {
+  const { error } = reagujNaPostValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
   const reactionBody = {
-    userId: req.body.userId,
-    reaction: req.body.reaction,
+    userId: req.body.korisnickiId,
+    reaction: req.body.reakcija,
   };
 
   await Post.findById({ _id: req.body.postId }, async (err, post) => {
-    if (err) res.send(400).send(err);
+    if (err) res.send(500).send(err);
 
-    let duplicateFound = false;
+    let duplikatPronadjen = false;
     for (let i = 0; i < post.reactions.length; i++) {
       if (post.reactions[i].userId == req.body.userId) {
         post.reactions.splice(i, 1);
-        duplicateFound = true;
+        duplikatPronadjen = true;
       }
     }
 
-    if (duplicateFound) {
-      const duplicatePostReactionFound = await post.save();
-      res.status(200).send(duplicatePostReactionFound);
+    if (duplikatPronadjen) {
+      const duplikatReakcijeNaPostPronadjen = await post.save();
+      res.status(200).send(duplikatReakcijeNaPostPronadjen);
     } else {
       post.reactions = [...post.reactions, reactionBody];
-      const postSaved = await post.save();
+      const sacuvanPost = await post.save();
 
-      if (!postSaved) return res.status(400).send("Couldn't save reaction");
-      res.send(postSaved);
+      if (!sacuvanPost)
+        return res.status(500).send("Neuspesno cuvanje reakcije");
+      res.send(sacuvanPost);
     }
   });
 });
@@ -230,7 +238,7 @@ router.post("/reactToPost", async (req, res) => {
 
 /**
  * @openapi
- * /uploadImage:
+ * /dodajSliku:
  *   post:
  *     tags:
  *        - Korisnik
@@ -245,30 +253,30 @@ router.post("/reactToPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/uploadImage", upload.single("img"), async (req, res) => {
-  const { error } = uploadImageValidation(req.body);
+router.post("/dodajSliku", upload.single("img"), async (req, res) => {
+  const { error } = uploadSlikeValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let imgFile = fs.readFileSync(req.file.path);
-  let encodeImage = imgFile.toString("base64");
+  let imgFajlBuffer = fs.readFileSync(req.file.path);
+  let enkodovanaSlika = imgFajlBuffer.toString("base64");
 
-  const image = new Image({
-    image: Buffer.from(encodeImage, "base64"),
+  const slika = new Image({
+    image: Buffer.from(enkodovanaSlika, "base64"),
     contentType: req.file.mimetype,
   });
 
-  image
+  slika
     .save()
-    .then((imgFile) => {
-      addImageIdToUser(imgFile.id, req.body.userId);
-      res.status(200).send("Image added successfully " + imgFile.id);
+    .then((imgFajl) => {
+      dodajSlikuNaKorisnika(imgFajl.id, req.body.userId);
+      res.status(200).send("Slika uspesno dodata " + imgFajl.id);
     })
-    .catch((err) => res.json(err));
+    .catch((err) => res.status(500).json(err));
 });
 
 /**
  * @openapi
- * /images:
+ * /sveSlikeKorisnika:
  *   get:
  *     tags:
  *        - Korisnik
@@ -278,11 +286,11 @@ router.post("/uploadImage", upload.single("img"), async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.get("/images", async (req, res) => {
-  const { error } = isUserIdSent(req.body);
+router.get("/sveSlikeKorisnika", async (req, res) => {
+  const { error } = daLiJePoslatIdKorisnika(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  let imageIdsRes = await findUserImageIds(req.body.userId);
+  let imageIdsRes = await pronadjiIdeveSlikaKorisnika(req.body.userId);
 
   let image = await Image.find({
     _id: {
@@ -310,7 +318,7 @@ router.get("/images", async (req, res) => {
 
 /**
  * @openapi
- * /register:
+ * /registracija:
  *   post:
  *     tags:
  *        - Korisnik
@@ -329,16 +337,16 @@ router.get("/images", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/register", async (req, res) => {
-  const { error } = registerValidation(req.body);
+router.post("/registracija", async (req, res) => {
+  const { error } = registracijaValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const emailExists = await User.findOne({ email: req.body.email });
+  const emailExists = await Korisnik.findOne({ email: req.body.email });
   if (emailExists) return res.status(400).send("Email already exists");
 
   const hashedPassword = await bCrypt.hash(req.body.password, 10);
 
-  const user = new User({
+  const user = new Korisnik({
     name: req.body.name,
     email: req.body.email,
     password: hashedPassword,
@@ -384,24 +392,28 @@ router.post("/register", async (req, res) => {
  */
 
 router.post("/login", async (req, res) => {
-  const { error } = loginValidation(req.body);
+  const { error } = loginValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = await User.findOne({ email: req.body.email });
-  if (!user) return res.send("Invalid username or password");
+  const korisnik = await Korisnik.findOne({ email: req.body.email });
+  if (!korisnik) return res.send("Korisnicki email ne postoji");
 
-  const validPassword = await bCrypt.compare(req.body.password, user.password);
-  if (!validPassword)
-    return res.status(400).send("Invalid username or password");
+  const validnaSifra = await bCrypt.compare(
+    req.body.password,
+    korisnik.password
+  );
 
-  return res.status(200).json(user);
+  if (!validnaSifra)
+    return res.status(400).send("Korisnicko ime ili sifra nisu tacni");
+
+  return res.status(200).json(korisnik);
 });
 
 // ============= FRIENDS SECTION ============= //
 
 /**
  * @openapi
- * /addFriend:
+ * /dodajPrijatelja:
  *   post:
  *     tags:
  *        - Korisnik
@@ -420,36 +432,43 @@ router.post("/login", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-let skippedAddingFriend = false;
-router.post("/addFriend", async (req, res) => {
-  const { error } = addFriendValidation(req.body);
+let preskocenoDodavanjePrijatelja = false;
+router.post("/dodajPrijatelja", async (req, res) => {
+  const { error } = dodajPrijateljaValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const user = await User.findOne({ _id: req.body.id }, function (err, user) {
-    let inFriendRequests = user.friendRequests.find((user) => {
-      return user === req.body.friendId;
-    });
-
-    if (inFriendRequests) {
-      skippedAddingFriend = true;
-    } else {
-      user.friendRequests = [...user.friendRequests, req.body.friendId];
-      user.save(function (err) {
-        if (err) {
-          console.error("err!");
-        }
+  const korisnik = await Korisnik.findOne(
+    { _id: req.body.id },
+    function (err, korisnik) {
+      let uZahtevimaZaPrijatelja = korisnik.friendRequests.find((user) => {
+        return user === req.body.friendId;
       });
-    }
-  });
 
-  if (!user) return res.send("could not find the user");
-  if (skippedAddingFriend) return res.send("already in friend reqs");
-  return res.send("Success!");
+      if (uZahtevimaZaPrijatelja) {
+        preskocenoDodavanjePrijatelja = true;
+      } else {
+        korisnik.friendRequests = [
+          ...korisnik.friendRequests,
+          req.body.friendId,
+        ];
+        korisnik.save(function (err) {
+          if (err) {
+            console.error("err!");
+          }
+        });
+      }
+    }
+  );
+
+  if (!korisnik) return res.send("nije bilo moguce pronaci korisnika");
+  if (preskocenoDodavanjePrijatelja)
+    return res.send("vec se nalazi u listi zahteva za prijatelja");
+  return res.status(200).send("Uspesan zahtev!");
 });
 
 /**
  * @openapi
- * /friendRequests:
+ * /zahteviZaPrijatelja:
  *   post:
  *     tags:
  *        - Korisnik
@@ -459,16 +478,16 @@ router.post("/addFriend", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.get("/friendRequests", async (req, res) => {
-  const { error } = getFriendRequests(req.body);
+router.get("/zahteviZaPrijatelja", async (req, res) => {
+  const { error } = getZahteveZaPrijateljaValidacija(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  User.findOne(
+  Korisnik.findOne(
     { _id: req.body.id },
     { _id: 0, friendRequests: 1 },
     function (err, data) {
       if (err) {
-        return res.status(400).send("Invalid user id");
+        return res.status(500).send("Korisnicki id nije validan");
       }
 
       return res.status(200).json(data);
@@ -478,7 +497,7 @@ router.get("/friendRequests", async (req, res) => {
 
 router.get("/getFriend/:id", async (req, res) => {
   let userId = req.params.id;
-  let user = await User.findById(userId);
+  let user = await Korisnik.findById(userId);
 
   res.json(user);
 });
