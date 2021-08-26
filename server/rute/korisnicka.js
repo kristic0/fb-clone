@@ -155,7 +155,7 @@ router.post("/komentarisiNaPost", async (req, res) => {
 
 /**
  * @openapi
- * /addPost:
+ * /getSvePostoveKorisnika:
  *   post:
  *     tags:
  *        - Korisnik
@@ -170,16 +170,6 @@ router.post("/komentarisiNaPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-function extendObj(target) {
-  var sources = [].slice.call(arguments, 1);
-  sources.forEach(function (source) {
-    for (var prop in source) {
-      target[prop] = source[prop];
-    }
-  });
-  return target;
-}
-
 router.get("/getSvePostoveKorisnika/:id", async (req, res) => {
   let korisnickiId = req.params.id;
 
@@ -188,30 +178,22 @@ router.get("/getSvePostoveKorisnika/:id", async (req, res) => {
     { posts: 1, profilnaSlika: 1, name: 1 }
   );
 
-  let info = {
-    name: String,
-    profilnaSlika: String,
-  };
-  info.name = idPostovaIdodatneInformacije.name;
-  info.profilnaSlika = idPostovaIdodatneInformacije.profilnaSlika;
-
   let sviPostoviJson = [];
   for (let i = 0; i < idPostovaIdodatneInformacije.posts.length; i++) {
+    let info = {
+      name: String,
+      profilnaSlika: String,
+      post: Object,
+    };
+    info.name = idPostovaIdodatneInformacije.name;
+    info.profilnaSlika = idPostovaIdodatneInformacije.profilnaSlika;
+
     let resPost = await Post.findById(idPostovaIdodatneInformacije.posts[i]);
 
-    //console.log(resPost);
+    info.post = resPost;
 
-    let newObj = {
-      ...info,
-      ...resPost,
-    };
-    sviPostoviJson.push(newObj);
+    sviPostoviJson.push(info);
   }
-
-  // sviPostoviJson.push(
-  //   idPostovaIdodatneInformacije.name,
-  //   idPostovaIdodatneInformacije.profilnaSlika
-  // );
 
   return res.status(201).json(sviPostoviJson);
 });

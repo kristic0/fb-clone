@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import "./Novosti.css";
 import Objava from "./Objava";
 import Postavi from "./Postavi";
@@ -6,7 +6,7 @@ import PricaPregled from "./Prica/PricaPregled";
 import axios from "axios";
 
 const Novosti = () => {
-    const [postovi, postaviPostove] = useState([]);
+  const [postovi, postaviPostove] = useState([]);
   let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
 
   useEffect(() => {
@@ -18,8 +18,13 @@ const Novosti = () => {
         axios
           .get(`/korisnik/getSvePostoveKorisnika/${listaPrijatelja[i]}`)
           .then((response) =>
-            postaviPostove((postoviKorisnika) => [...postoviKorisnika, response.data])
+            postaviPostove((postoviKorisnika) => [
+              ...postoviKorisnika,
+              response.data,
+            ])
           );
+
+        console.log(postovi);
       }
     };
     sviPostovi();
@@ -38,7 +43,13 @@ const Novosti = () => {
       />
 
       {postovi.map((p) => (
-        <Objava tekst={p.profilnaSlika} imeKorisnika={p.name} tekst={p.content} slika={p.slika} key={p._id} />
+        <Objava
+          tekst={p.profilnaSlika}
+          imeKorisnika={p.name}
+          tekst={p.content}
+          slika={p.slika}
+          key={p._id}
+        />
       ))}
     </div>
   );

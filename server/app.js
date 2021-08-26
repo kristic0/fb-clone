@@ -24,7 +24,7 @@ const opcije = {
       },
     ],
   },
-  apis: ["./routes/*.js"],
+  apis: ["./rute/*.js"],
 };
 
 dotenv.config();
