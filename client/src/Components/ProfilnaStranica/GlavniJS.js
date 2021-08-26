@@ -17,7 +17,9 @@ import Prijatelji from "./Prijatelji.js";
 import Fotografije from "./Fotografije.js";
 import Header from "../Header";
 
- export const GlavniJS = () => {
+import axios from "axios";
+
+export const GlavniJS = () => {
   let trenutni = JSON.parse(localStorage.getItem("trenutniKorisnik"));
 
   const [stanje, setStanje] = useState(1);
@@ -27,6 +29,8 @@ import Header from "../Header";
   const [izvorSlike, setIzvorSlike] = useState(false);
 
   const [idProfila, setIdProfila] = useState(trenutni); //localStorage.getItem("korisnicki id");
+
+  const [prijateljiLista, postaviPrijatelje] = useState();
 
   const kojeStanje = (index) => {
     setStanje(index);
@@ -38,6 +42,19 @@ import Header from "../Header";
 
   const postaviIzvorSlike = (param) => {
     setIzvorSlike(param);
+  };
+
+  let prijatelji = () => {
+    let listaPrijatelja = JSON.parse(
+      localStorage.getItem("trenutniKorisnik")
+    ).friends;
+    for (let i = 0; i < listaPrijatelja.length; i++) {
+      axios
+        .get(`/user/getFriend/${listaPrijatelja[i]}`)
+        .then((response) =>
+          postaviPrijatelje((prijatelj) => [...prijatelj, response.data])
+        );
+    }
   };
 
   // let korisnik = [];
