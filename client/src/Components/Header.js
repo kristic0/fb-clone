@@ -4,7 +4,7 @@ import FlagIcon from "@material-ui/icons/Flag";
 import SubscriptionsOutlinedIcon from "@material-ui/icons/SubscriptionsOutlined";
 import StorefrontOutLinedIcon from "@material-ui/icons/StorefrontOutlined";
 import SupervisedUserCircleIcon from "@material-ui/icons/SupervisedUserCircle";
-import {Avatar, IconButton} from "@material-ui/core";
+import {Avatar, Button, IconButton} from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import ForumIcon from "@material-ui/icons/Forum";
 import NotificationsActiveIcon from "@material-ui/icons/NotificationsActive";
@@ -15,13 +15,24 @@ import {ReactComponent as ZubcanikIkonica} from "../icons/cog.svg";
 import {ReactComponent as CevronIkonica} from "../icons/chevron.svg";
 import {ReactComponent as Katanac} from "../icons/154684.svg";
 import {ReactComponent as Upitnik} from "../icons/question-mark-svgrepo-com.svg";
-
-
+import { Link } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import "./Header.css";
+import GlavniJS from "./ProfilnaStranica/GlavniJS";
+
+
+
+
 
 const Header = () => {
     let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
+    let history = useHistory();
+    function clickHandler() {
+        history.push("/Novosti");
+      }
+    
     return (
+        
         <div
             className='header'>
             <div className='header__levi'>
@@ -34,11 +45,11 @@ const Header = () => {
                 <input placeholder='Pretrazi
                 Fejsbuk' type="text" />
             </div>
-
+             
             <div className="header__centar">
                 <div className="header__opcije
                 header__opcije--aktivno">
-                    <HomeIcon fontsize='large' />
+                    <HomeIcon type = "button" onClick = {clickHandler} fontsize='large' />
                 </div>
                 <div className="header__opcije">
                     <FlagIcon fontsize='large' />
@@ -84,6 +95,7 @@ const Header = () => {
 
     function NavItem(props) {
 
+
         const[open,setOpen] = useState(false);
         return (
             <li className="nav-item">
@@ -106,7 +118,9 @@ const Header = () => {
         }
 
         function SpustajuciItem(props){
+            
             return(
+                
                 <a href = "#" className = "meni-item" onClick={() => props.goToMeni && setActiveMeni(props.goToMeni)}>
                     <span className = "ikonica-dugme">{props.leftIcon}</span>
                     {props.children}
@@ -116,8 +130,11 @@ const Header = () => {
             );
         }
 
+
         return(
             <div className="spustanje" style = {{visina: meniVisina}}>
+
+                
 
                 <CSSTransition
                     in = {activeMeni === 'main'}
@@ -127,8 +144,12 @@ const Header = () => {
 
                 >
                     <div className = "meni">
-
-                        <SpustajuciItem leftIcon = {<Avatar/>}>Moj Profil</SpustajuciItem>
+                        
+                        <SpustajuciItem 
+                         leftIcon = { <Avatar src={logovaniKorisnik.profilnaSlika} />} >
+                             Moj Profil
+                             </SpustajuciItem>
+                        
                         <SpustajuciItem
                             leftIcon = {<ZubcanikIkonica/>}
                             rightIcon = {<CevronIkonica/>}
