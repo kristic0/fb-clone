@@ -38,19 +38,19 @@ const Header = () => {
             <div className="header__centar">
                 <div className="header__opcije
                 header__opcije--aktivno">
-                    <HomeIcon fontsize='large' />
+                    <HomeIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <FlagIcon fontsize='large' />
+                    <FlagIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <SubscriptionsOutlinedIcon fontsize='large' />
+                    <SubscriptionsOutlinedIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <StorefrontOutLinedIcon fontsize='large' />
+                    <StorefrontOutLinedIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <SupervisedUserCircleIcon fontsize='large' />
+                    <SupervisedUserCircleIcon fontSize='large' />
                 </div>
             </div>
 

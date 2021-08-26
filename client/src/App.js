@@ -27,11 +27,7 @@ import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Link } from 'react-router-dom';
 
 import './App.css';
-import Login from './Login.js';
-import Header from './Components/Header.js';
-import BocnaTraka from './Components/BocnaTraka/BocnaTraka';
-import Novosti from './Components/Novosti/Novosti.js';
-import PrijateljiTraka from './Components/PrijateljiTraka/PrijateljiTraka.js';
+
 import MainPage from "./Components/Novosti/MainPage";
 import PostZaLog from "./PostZaLog";
 
@@ -39,12 +35,13 @@ import PostZaLog from "./PostZaLog";
 
 function App() {
   return (
-      <div className="mainPage">
+      <div className="App">
       <Router>
         <Switch>
-
           <Route path="/Login" component={PostZaLog}/>
-          <Route path="/Novosti" component={MainPage}/>
+          <Route path = "/Novosti">
+            <MainPage/>
+          </Route>
           <Route path="/" component={PostZaLog} exact/>
         </Switch>
       </Router>

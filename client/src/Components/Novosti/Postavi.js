@@ -9,7 +9,7 @@ import axios from 'axios';
 
 const Postavi = () => {
 
-  const [unos, postaviUnos] = useState("");
+  const [content, postaviContent] = useState("");
   const [slika, postaviSliku] = useState("");
   let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
   
@@ -17,12 +17,17 @@ const Postavi = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
 
-    axios.post('/user/addPost', { unos, slika })
+    //let vreme = new Date().toLocaleString()
+    axios.post('/user/addPost', logovaniKorisnik._id, content, slika )
     .then(res => {
       console.log(res);
     })
-    postaviUnos("");
+
+
+
+    postaviContent("");
     postaviSliku("");
   };
 
@@ -36,7 +41,7 @@ const Postavi = () => {
             className="postavi__unos"
             placeholder="O čemu razmišljate?"
             value={unos}
-            onChange={(e) => postaviUnos(e.target.value)}
+            onChange={(e) => postaviContent(e.target.value)}
           />
           <input
             value={slika}
