@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Button from "@material-ui/core/Button";
 import Dialog from "@material-ui/core/Dialog";
@@ -17,70 +17,15 @@ import SettingsIcon from "@material-ui/icons/Settings";
 import ReorderIcon from "@material-ui/icons/Reorder";
 import ViewModuleIcon from "@material-ui/icons/ViewModule";
 import CloseIcon from "@material-ui/icons/Close";
-import Post from "../Feed/Post";
+import Post from "../Novosti/Objava";
 import "./ObjaveTab.css";
-import prijatelji from "./databaseSimulation.json";
+import axios from "axios";
 
 let src = "";
-
-const mesto = (id) => {
-  let korisnik = null;
-  for (let key in prijatelji) {
-    if (prijatelji[key].id === id) {
-      korisnik = prijatelji[key];
-      break;
-    }
-  }
-  return korisnik.mesto;
-};
-
-const skola = (id) => {
-  let korisnik = null;
-  for (let key in prijatelji) {
-    if (prijatelji[key].id === id) {
-      korisnik = prijatelji[key];
-      break;
-    }
-  }
-
-  return korisnik.skola;
-};
-
-const posao = (id) => {
-  let korisnik = null;
-  for (let key in prijatelji) {
-    if (prijatelji[key].id === id) {
-      korisnik = prijatelji[key];
-      break;
-    }
-  }
-  return korisnik.posao;
-};
-
-const slike = (id) => {
-  let korisnik = null;
-  for (let key in prijatelji) {
-    if (prijatelji[key].id === id) {
-      korisnik = prijatelji[key];
-      break;
-    }
-  }
-  return korisnik.slike;
-};
 
 class ObjaveTab extends React.Component {
   constructor(props) {
     super();
-  }
-
-  async nesto() {
-    const response = await fetch("http://localhost:4000/user/search", {
-      method: "post",
-      body: JSON.stringify({ name: "test1" }),
-    });
-    const json = await response.json();
-    console.log(json);
-    this.setState({ data: json });
   }
 
   state = {
@@ -115,13 +60,13 @@ class ObjaveTab extends React.Component {
                   stranici Novosti
                 </h3>
                 <h2>Posao</h2>
-                {posao(this.props.getIdProfila)}
+                {this.props.getIdProfila.osnovneInformacije.posao}
                 <h2>Obrazovanje</h2>
-                {skola(this.props.getIdProfila)}
+                {this.props.getIdProfila.osnovneInformacije.skola}
                 <h2>Trenutno prebivaliste</h2>
-                {mesto(this.props.getIdProfila)}
+                {this.props.getIdProfila.osnovneInformacije.mesto}
                 <h2>Veza</h2>
-                {}
+                {this.props.getIdProfila.osnovneInformacije.veza}
               </div>
             </DialogContent>
             <DialogActions>
@@ -152,20 +97,21 @@ class ObjaveTab extends React.Component {
             <ul className="listaUvod">
               <li>
                 <LocationOnIcon className="lokacija" /> Iz mesta {}
-                {mesto(this.props.getIdProfila)}
+                {this.props.getIdProfila.osnovneInformacije.mesto}
               </li>
               <li>
                 <SchoolIcon className="skola" /> Pohađa/o{" "}
-                {skola(this.props.getIdProfila)}
+                {this.props.getIdProfila.osnovneInformacije.skola}
               </li>
               <li>
                 <WorkIcon className="posao" />
-                Radi u {posao(this.props.getIdProfila)}
+                Radi u {this.props.getIdProfila.osnovneInformacije.posao}
               </li>
               <li
                 className={1 === 1 ? "izmena" : "sakrij"}
                 onClick={() => {
                   this.prikazDialoga(true);
+                  console.log(this.props.getIdProfila.osnovneInformacije.mesto);
                 }}
               >
                 Izmenite detalje
@@ -200,20 +146,18 @@ class ObjaveTab extends React.Component {
               Fotografije
             </h1>
             <div className="fotografijeDiv">
-              {slike(this.props.getIdProfila)
-                .slice(0, 9)
-                .map((slika) => (
-                  <div className="divFotografija">
-                    <img
-                      src={slika}
-                      onClick={() => {
-                        this.prikaziSliku(true);
-                        src = slika;
-                      }}
-                      alt=""
-                    />
-                  </div>
-                ))}
+              {this.props.getIdProfila.images.slice(0, 9).map((slika) => (
+                <div className="divFotografija">
+                  <img
+                    src={slika}
+                    onClick={() => {
+                      this.prikaziSliku(true);
+                      src = slika;
+                    }}
+                    alt=""
+                  />
+                </div>
+              ))}
               {this.state.prikazSlika && (
                 <div>
                   <Dialog
@@ -284,15 +228,15 @@ class ObjaveTab extends React.Component {
                 Prijatelji
               </h1>
               <div className="divPrijateljiUObjavama">
-                {prijatelji.slice(0, 9).map((prijatelj) => (
+                {console.log(this.props.getPrijatelje)}
+                {this.props.getPrijatelje.slice(0, 9).map((prijatelj) => (
                   <div className="divObjavePrijatelji">
                     <div
                       className="divObjavePrijateljiSlika"
                       onClick={() => {
-                        this.props.setIdProfilaParentComponent(prijatelj.id);
+                        this.props.setProfilParentComponent(prijatelj);
                         this.props.setStanjeParentComponent(1);
                         window.scrollTo(0, 0);
-                        console.log(this.props.getIdProfila);
                       }}
                     >
                       <img src={prijatelj.profilnaSlika} alt="" />
@@ -300,12 +244,13 @@ class ObjaveTab extends React.Component {
                     <div
                       className="divObjavePrijateljiIme"
                       onClick={() => {
-                        this.props.setIdProfilaParentComponent(prijatelj.id);
+                        this.props.setProfilParentComponent(prijatelj);
                         this.props.setStanjeParentComponent(1);
+
                         window.scrollTo(0, 0);
                       }}
                     >
-                      {prijatelj.ime + " " + prijatelj.prezime}
+                      {prijatelj.name}
                     </div>
                   </div>
                 ))}
@@ -314,13 +259,16 @@ class ObjaveTab extends React.Component {
           </div>
 
           <div className="objave">
-            <h1>Neke objave </h1>
-
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            <h1>Postovi </h1>
+            {this.props.getPostove.map((post) => (
+              <Post
+                profilna={post.profilnaSlika}
+                imeKorisnika={post.name}
+                tekst={post.content}
+                slika={post.slika}
+                key={post._id}
+              />
+            ))}
           </div>
         </div>
       </div>

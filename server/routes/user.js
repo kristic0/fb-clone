@@ -165,20 +165,40 @@ router.post("/commentOnPost", async (req, res) => {
  *         description: Ukoliko su validni parametri prosledjeni
  */
 
-router.post("/getAllUserPosts", async (req, res) => {
-  const { error } = isUserIdSent(req.body);
-  if (error) return res.status(400).send("Bad request");
+router.get("/getSvePostoveKorisnika/:id", async (req, res) => {
+  let korisnickiId = req.params.id;
 
-  const userId = req.body.userId;
-  const allPostIds = await User.findOne({ _id: userId }, { posts: 1 });
+  const idPostovaIdodatneInformacije = await User.findOne(
+    { _id: korisnickiId },
+    { posts: 1, profilnaSlika: 1, name: 1 }
+  );
 
-  let allPostsJson = [];
-  for (let i = 0; i < allPostIds.posts.length; i++) {
-    let res = await Post.findById(allPostIds.posts[i]);
-    allPostsJson.push(res);
+  let info = {
+    name: String,
+    profilnaSlika: String,
+  };
+  info.name = idPostovaIdodatneInformacije.name;
+  info.profilnaSlika = idPostovaIdodatneInformacije.profilnaSlika;
+
+  let sviPostoviJson = [];
+  for (let i = 0; i < idPostovaIdodatneInformacije.posts.length; i++) {
+    let resPost = await Post.findById(idPostovaIdodatneInformacije.posts[i]);
+
+    //console.log(resPost);
+
+    let newObj = {
+      ...info,
+      ...resPost,
+    };
+    sviPostoviJson.push(newObj);
   }
 
-  return res.status(201).json(allPostsJson);
+  // sviPostoviJson.push(
+  //   idPostovaIdodatneInformacije.name,
+  //   idPostovaIdodatneInformacije.profilnaSlika
+  // );
+
+  return res.status(201).json(sviPostoviJson);
 });
 
 /**
@@ -351,6 +371,7 @@ router.post("/register", async (req, res) => {
       pol: "",
       datum: "",
       jezici: "",
+      veza: "",
     },
   });
 

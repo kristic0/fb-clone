@@ -57,6 +57,7 @@ export const User = mongoose.model(
         pol: String | null,
         datum: String | null,
         jezici: String | null,
+        veza: String | null,
       },
 
       required: false,

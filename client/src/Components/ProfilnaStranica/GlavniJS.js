@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
@@ -15,16 +15,59 @@ import ObjaveTab from "./ObjaveTab.js";
 import Informacije from "./Informacije.js";
 import Prijatelji from "./Prijatelji.js";
 import Fotografije from "./Fotografije.js";
-import baza from "./databaseSimulation.json";
+import Header from "../Header";
+import axios from "axios";
 
 const GlavniJS = () => {
+  let korisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
   const [stanje, setStanje] = useState(1);
+
+  const [prijatelj, postaviPrijatelje] = useState([]);
 
   const [prikazSlike, setPrikazSlike] = useState(false);
 
   const [izvorSlike, setIzvorSlike] = useState(false);
 
-  const [idProfila, setIdProfila] = useState(1); //localStorage.getItem("korisnicki id");
+  const [profil, setProfil] = useState(korisnik); //localStorage.getItem("korisnicki id");
+
+  useEffect(() => {
+    let postovi = () => {
+      let idKorisnika = JSON.parse(
+        localStorage.getItem("trenutniKorisnik")
+      )._id;
+      axios
+        .get(`/user/getSvePostoveKorisnika/${idKorisnika}`)
+        .then((response) => postaviPostove((post) => [...post, response.data]));
+    };
+    postovi();
+  }, []);
+  const [post, postaviPostove] = useState([]);
+
+  useEffect(() => {
+    let setProfil = () => {
+      let idKorisnika = JSON.parse(localStorage.getItem("trenutniKorisnik"));
+      axios
+        .get(`/user/getFriend/${idKorisnika}`)
+        .then((response) => setProfil((profil) => [...profil, response.data]));
+    };
+    setProfil();
+  }, []);
+
+  useEffect(() => {
+    let prijatelji = () => {
+      let listaPrijatelja = JSON.parse(
+        localStorage.getItem("trenutniKorisnik")
+      ).friends;
+      for (let i = 0; i < listaPrijatelja.length; i++) {
+        axios
+          .get(`/user/getFriend/${listaPrijatelja[i]}`)
+          .then((response) =>
+            postaviPrijatelje((prijatelj) => [...prijatelj, response.data])
+          );
+      }
+    };
+    prijatelji();
+  }, []);
 
   const kojeStanje = (index) => {
     setStanje(index);
@@ -38,16 +81,11 @@ const GlavniJS = () => {
     setIzvorSlike(param);
   };
 
-  let korisnik = [];
-
-  for (let i = 0; i < baza.length; i++) {
-    if (baza[i].id === idProfila) {
-      korisnik = baza[i];
-    }
-  }
-
   return (
     <div className="glavniDiv">
+      <div>
+        <Header />
+      </div>
       <div>
         <Dialog
           fullScreen
@@ -84,26 +122,24 @@ const GlavniJS = () => {
         <div className="divBeo">
           <img
             className="naslovnaSlika"
-            src={korisnik.naslovnaSlika}
+            src={profil.naslovnaSlika}
             alt="Naslovna Slika"
             onClick={() => {
               prikaziSliku(true);
-              postaviIzvorSlike(korisnik.naslovnaSlika);
+              postaviIzvorSlike(profil.naslovnaSlika);
             }}
           />
 
           <img
             className="profilnaSlika"
-            src={korisnik.profilnaSlika}
+            src={profil.profilnaSlika}
             alt="Profilna Slika"
             onClick={() => {
               prikaziSliku(true);
-              postaviIzvorSlike(korisnik.profilnaSlika);
+              postaviIzvorSlike(profil.profilnaSlika);
             }}
           />
-          <h1 className="korisnickoIme">
-            {korisnik.ime + " " + korisnik.prezime}
-          </h1>
+          <h1 className="korisnickoIme">{profil.name}</h1>
           <div className="divListe">
             <ul className="meniLevo">
               <li
@@ -150,22 +186,26 @@ const GlavniJS = () => {
       <div className="donjiDeo">
         <div className={stanje === 1 ? "aktivno" : "neaktivno"}>
           <ObjaveTab
-            setIdProfilaParentComponent={setIdProfila}
+            setProfilParentComponent={setProfil}
             setStanjeParentComponent={setStanje}
-            getIdProfila={idProfila}
+            getIdProfila={profil}
+            getPrijatelje={prijatelj}
+            getPostove={post}
           />
         </div>
         <div className={stanje === 2 ? "aktivno" : "neaktivno"}>
-          <Informacije />
+          <Informacije getIdProfila={profil} />
         </div>
         <div className={stanje === 3 ? "aktivno" : "neaktivno"}>
           <Prijatelji
-            setIdProfilaParentComponent={setIdProfila}
+            setIdProfilaParentComponent={setProfil}
             setStanjeParentComponent={setStanje}
+            getIdProfila={profil}
+            getPrijatelje={prijatelj}
           />
         </div>
         <div className={stanje === 4 ? "aktivno" : "neaktivno"}>
-          <Fotografije />
+          <Fotografije getIdProfila={profil} getPrijatelje={prijatelj} />
         </div>
       </div>
     </div>
