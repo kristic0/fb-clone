@@ -8,7 +8,7 @@ import NearMeIcon from "@material-ui/icons/NearMe";
 import AccountCircleIclon from "@material-ui/icons/AccountCircle";
 import ExpandMoreOutlined from "@material-ui/icons/ExpandMoreOutlined";
 
-const Objava = ({ profilna, slika, imeKorisnika, vreme, tekst }) => {
+const Objava = ({ profilna, imeKorisnika, tekst, slika, vreme }) => {
   return (
     <div className="objava">
       <div className="objava__vrh">

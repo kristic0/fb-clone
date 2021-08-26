@@ -20,10 +20,6 @@ import { useHistory } from "react-router-dom";
 import "./Header.css";
 import GlavniJS from "./ProfilnaStranica/GlavniJS";
 
-
-
-
-
 const Header = () => {
     let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
     let history = useHistory();
@@ -32,7 +28,6 @@ const Header = () => {
       }
 
     return (
-
         <div
             className='header'>
             <div className='header__levi'>
@@ -49,19 +44,20 @@ const Header = () => {
             <div className="header__centar">
                 <div className="header__opcije
                 header__opcije--aktivno">
-                    <HomeIcon type = "button" onClick = {clickHandler} fontsize='large' />
+                    <HomeIcon fontSize='large' />
+                    <HomeIcon type = "button" onClick = {clickHandler} fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <FlagIcon fontsize='large' />
+                    <FlagIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <SubscriptionsOutlinedIcon fontsize='large' />
+                    <SubscriptionsOutlinedIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <StorefrontOutLinedIcon fontsize='large' />
+                    <StorefrontOutLinedIcon fontSize='large' />
                 </div>
                 <div className="header__opcije">
-                    <SupervisedUserCircleIcon fontsize='large' />
+                    <SupervisedUserCircleIcon fontSize='large' />
                 </div>
             </div>
 
@@ -95,7 +91,6 @@ const Header = () => {
 
     function NavItem(props) {
 
-
         const[open,setOpen] = useState(false);
         return (
             <li className="nav-item">
@@ -118,9 +113,7 @@ const Header = () => {
         }
 
         function SpustajuciItem(props){
-
             return(
-
                 <a href = "#" className = "meni-item" onClick={() => props.goToMeni && setActiveMeni(props.goToMeni)}>
                     <span className = "ikonica-dugme">{props.leftIcon}</span>
                     {props.children}
@@ -130,11 +123,8 @@ const Header = () => {
             );
         }
 
-
         return(
             <div className="spustanje" style = {{visina: meniVisina}}>
-
-
 
                 <CSSTransition
                     in = {activeMeni === 'main'}
