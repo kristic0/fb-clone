@@ -24,33 +24,28 @@ import { useState } from "react";
 import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 
-import { Link } from 'react-router-dom';
-
-import './App.css';
+import "./App.css";
 
 import MainPage from "./Components/Novosti/MainPage";
 import PostZaLog from "./PostZaLog";
-import GlavniJS from "./Components/ProfilnaStranica/GlavniJS";
-import PozivProfil from "./PozivProfil";
-
-
-
+import ProfilnaStranica from "./Components/ProfilnaStranica/ProfilnaStranica";
 
 function App() {
   return (
-      <div className="App">
+    <div className="App">
       <Router>
         <Switch>
-          <Route path="/Login" component={PostZaLog}/>
-          <Route path = "/Novosti">
-            <MainPage/>
+          <Route path="/Login" component={PostZaLog} />
+          <Route path="/Novosti">
+            <MainPage />
           </Route>
-          <Route path="/" component={PostZaLog} exact/>
-          <Route path="/ProfilPoziv" component={PozivProfil} />
+          <Route path="/" component={PostZaLog} exact />
+          <Route path="/ProfilPoziv">
+            <ProfilnaStranica />
+          </Route>
         </Switch>
       </Router>
-
-      </div>
+    </div>
   );
 }
 

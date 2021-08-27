@@ -10,18 +10,7 @@ import LanguageIcon from "@material-ui/icons/Language";
 
 import "./Informacije.css";
 
-let mesto = "Zrenjanin";
-let skola = "Neka skola";
-let veza = "U braku";
-let posao = "Nigde";
-let detalji = "ASdasdasdad";
-let mejl = "randomIme@gmail.com";
-let pol = "musko";
-let rodjendan = "28.12.1999";
-let jezici = ["srpski", "engleski"];
-let datum = "12.06.2021";
-
-const Informacije = () => {
+const Informacije = (props) => {
   const [stanje, setStanje] = useState(1);
 
   const kojeStanje = (index) => {
@@ -84,19 +73,19 @@ const Informacije = () => {
               <ul className="listaPregled">
                 <li>
                   <LocationOnIcon className="lokacija" />
-                  Iz mesta {mesto}
+                  Iz mesta {props.getIdProfila.osnovneInformacije.mesto}
                 </li>
                 <li>
                   <SchoolIcon className="skola" />
-                  Pohadja {skola}
+                  Pohadja {props.getIdProfila.osnovneInformacije.skola}
                 </li>
                 <li>
                   <FavoriteIcon className="veza" />
-                  {veza}
+                  {props.getIdProfila.osnovneInformacije.veza}
                 </li>
                 <li>
                   <WorkIcon className="posao" />
-                  {posao}
+                  {props.getIdProfila.osnovneInformacije.posao}
                 </li>
               </ul>
             </div>
@@ -106,12 +95,12 @@ const Informacije = () => {
                 <h1>Posao</h1>
                 <li>
                   <WorkIcon className="posao" />
-                  {posao}
+                  {props.getIdProfila.osnovneInformacije.posao}
                 </li>
                 <h1>Obrazovanje</h1>
                 <li>
                   <SchoolIcon className="skola" />
-                  Pohadja {skola}
+                  Pohadja {props.getIdProfila.osnovneInformacije.skola}
                 </li>
               </ul>
             </div>
@@ -121,7 +110,7 @@ const Informacije = () => {
                 <h1>Mesta na kojima je korisnik ziveo</h1>
                 <li>
                   <LocationOnIcon className="lokacija" />
-                  Iz mesta {mesto}
+                  Iz mesta {props.getIdProfila.osnovneInformacije.mesto}
                 </li>
               </ul>
             </div>
@@ -131,20 +120,20 @@ const Informacije = () => {
                 <h1>Kontakt podaci</h1>
                 <li>
                   <MailIcon className="mejl" />
-                  {mejl}
+                  {props.getIdProfila.email}
                 </li>
                 <h1 className="osnovneInformacije">Osnovne informacije</h1>
                 <li>
                   <PersonIcon className="pol" />
-                  {pol}
+                  {props.getIdProfila.osnovneInformacije.pol}
                 </li>
                 <li>
                   <CakeIcon className="rodjendan" />
-                  {rodjendan}
+                  {props.getIdProfila.osnovneInformacije.datum}
                 </li>
                 <li>
                   <LanguageIcon className="jezici" />
-                  {jezici}
+                  {props.getIdProfila.osnovneInformacije.jezici}
                 </li>
               </ul>
             </div>
@@ -154,7 +143,7 @@ const Informacije = () => {
                 <h1>Veza</h1>
                 <li>
                   <FavoriteIcon className="veza" />
-                  {veza}
+                  {props.getIdProfila.osnovneInformacije.veza}
                 </li>
               </ul>
             </div>
@@ -162,7 +151,7 @@ const Informacije = () => {
             <div className={stanje === 6 ? "aktivanDiv" : "neaktivanDiv"}>
               <ul className="listaPorodicaVeza">
                 <h1>O vama</h1>
-                <li>{detalji}</li>
+                <li>{props.getIdProfila.osnovneInformacije.mesto}</li>
               </ul>
             </div>
 
@@ -171,15 +160,15 @@ const Informacije = () => {
                 <h1>Zivotni dogadjaji</h1>
                 <li>
                   <SchoolIcon className="skola" />
-                  Pohadja {skola} od {datum}
+                  Pohadja {props.getIdProfila.osnovneInformacije.skola}
                 </li>
                 <li>
                   <FavoriteIcon className="veza" />
-                  {veza} od {datum}
+                  {props.getIdProfila.osnovneInformacije.veza}
                 </li>
                 <li>
                   <WorkIcon className="posao" />
-                  {posao} od {datum}
+                  {props.getIdProfila.osnovneInformacije.posao}
                 </li>
               </ul>
             </div>

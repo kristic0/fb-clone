@@ -4,9 +4,11 @@ import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import CloseIcon from "@material-ui/icons/Close";
+import Post from "../Novosti/Objava";
 
 import "./Fotografije.css";
-import nizSlika from "./databaseSimulation.json";
+
+let trenutni = JSON.parse(localStorage.getItem("trenutniKorisnik"));
 
 const Fotografije = () => {
   const [prikazSlike, setPrikazSlike] = useState(false);
@@ -19,15 +21,6 @@ const Fotografije = () => {
   const postaviIzvorSlike = (param) => {
     setIzvorSlike(param);
   };
-
-  let prviFilter = [];
-
-  for (let i = 0; i < nizSlika.length; i++) {
-    if (nizSlika[i].id === 2) {
-      //promeni ovde
-      prviFilter = nizSlika[i].slike;
-    }
-  }
 
   return (
     <div className="divFotografije">
@@ -68,7 +61,7 @@ const Fotografije = () => {
           <h1>Fotografije</h1>
         </div>
         <div className="divDoleFoto">
-          {prviFilter.map((slika) => (
+          {trenutni.images.map((slika) => (
             <div className="divFoto">
               <img
                 src={slika}

@@ -4,6 +4,11 @@
   width: 100%;
 }
 
+.divDialogFotografijaSlika>img{
+  width: 70%;
+}
+  
+
 .gornjiDeo {
   display: grid;
   z-index: 1;
@@ -48,6 +53,7 @@
   width: 180px;
   height: 180px;
   border-radius: 90px;
+  object-fit: cover;
 }
 
 .profilnaSlika:hover {
@@ -121,7 +127,7 @@
   color: #1877f2;
 }
 
-.hide{
+.hide {
   display: none;
 }
 
