@@ -33,13 +33,18 @@ const ProfilnaStranica = () => {
   const [profil, setProfil] = useState(korisnik); //localStorage.getItem("korisnicki id");
 
   useEffect(() => {
+    let called = false;
     let postovi = () => {
       let idKorisnika = JSON.parse(
         localStorage.getItem("trenutniKorisnik")
       )._id;
       axios
-        .get(`/user/getSvePostoveKorisnika/${idKorisnika}`)
-        .then((response) => postaviPostove((post) => [...post, response.data]));
+        .get(`/korisnik/getSvePostoveKorisnika/${idKorisnika}`)
+        .then((response) => {
+          if (!called) {
+            postaviPostove((oldArray) => [...oldArray, response.data]);
+          }
+        });
     };
     postovi();
   }, []);
@@ -49,7 +54,7 @@ const ProfilnaStranica = () => {
     let setProfil = () => {
       let idKorisnika = JSON.parse(localStorage.getItem("trenutniKorisnik"));
       axios
-        .get(`/user/getFriend/${idKorisnika}`)
+        .get(`/korisnik/getPrijatelja/${idKorisnika}`)
         .then((response) => setProfil((profil) => [...profil, response.data]));
     };
     setProfil();
@@ -62,7 +67,7 @@ const ProfilnaStranica = () => {
       ).friends;
       for (let i = 0; i < listaPrijatelja.length; i++) {
         axios
-          .get(`/user/getFriend/${listaPrijatelja[i]}`)
+          .get(`/korisnik/getPrijatelja/${listaPrijatelja[i]}`)
           .then((response) =>
             postaviPrijatelje((prijatelj) => [...prijatelj, response.data])
           );
@@ -169,7 +174,7 @@ const ProfilnaStranica = () => {
                 Još <ArrowDropDownIcon />
               </li>
             </ul>
-            <ul className={1 === 1 ? "meniDesno" : "hide"}>
+            <ul className="meniDesno">
               <li className="pricaLi">
                 <AddCircleIcon />
                 Dodajte u pricu

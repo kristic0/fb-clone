@@ -108,7 +108,7 @@ class ObjaveTab extends React.Component {
                 Radi u {this.props.getIdProfila.osnovneInformacije.posao}
               </li>
               <li
-                className={1 === 1 ? "izmena" : "sakrij"}
+                className="izmena"
                 onClick={() => {
                   this.prikazDialoga(true);
                   console.log(this.props.getIdProfila.osnovneInformacije.mesto);
@@ -116,10 +116,10 @@ class ObjaveTab extends React.Component {
               >
                 Izmenite detalje
               </li>
-              <li className={1 === 1 ? "dodavanje" : "hide"}>Dodajte hobije</li>
+              <li className="dodavanje">Dodajte hobije</li>
             </ul>
           </div>
-          <div className={1 === 1 ? "razmisljanje" : "hide"}>
+          <div className="razmisljanje">
             <div className="razmisljanjeGornjiDeo">
               <div className="noviStatus">
                 <Avatar />
@@ -259,16 +259,21 @@ class ObjaveTab extends React.Component {
           </div>
 
           <div className="objave">
-            <h1>Postovi </h1>
-            {this.props.getPostove.map((post) => (
-              <Post
-                profilna={post.profilnaSlika}
-                imeKorisnika={post.name}
-                tekst={post.content}
-                slika={post.slika}
-                key={post._id}
-              />
-            ))}
+            {this.props.getPostove.map((item) => {
+              return Object.entries(item).map(([key, datum], i) => {
+                return (
+                  <div key={i}>
+                    <Post
+                      profilna={datum.profilnaSlika}
+                      imeKorisnika={datum.name}
+                      tekst={datum.post.content}
+                      slika={datum.post.imageUrl}
+                      vreme={datum.post.time}
+                    />
+                  </div>
+                );
+              });
+            })}
           </div>
         </div>
       </div>
