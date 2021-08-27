@@ -10,7 +10,7 @@ import axios from 'axios';
 const Postavi = () => {
 
   const [content, postaviContent] = useState("");
-  const [slika, postaviSliku] = useState("");
+  const [imgUrl, postaviSliku] = useState("");
   let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
   
   
@@ -20,10 +20,16 @@ const Postavi = () => {
     let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"))
 
     //let vreme = new Date().toLocaleString()
-    axios.post('/korisnik/dodajPost', logovaniKorisnik._id, content, slika )
-    .then(res => {
-      console.log(res);
-    })
+    axios({
+      method: 'post',
+      url: '/korisnik/dodajPost',
+      data: {
+        korisnickiId: logovaniKorisnik._id,
+        content: content,
+        imgUrl: imgUrl
+      }
+
+    }).then((res) => console.log(res));
 
 
 
@@ -44,7 +50,7 @@ const Postavi = () => {
             onChange={(e) => postaviContent(e.target.value)}
           />
           <input
-            value={slika}
+            value={imgUrl}
             placeholder="URL slike..."
             onChange={(e) => postaviSliku(e.target.value)}
             

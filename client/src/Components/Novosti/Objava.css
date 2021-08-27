@@ -15,25 +15,32 @@
     position: relative;
     align-items: center;
     padding: 15px;
+    padding-bottom: 0px;
+    padding-top: 0px;
 }
 
 .objava__avatar {
     margin-right: 10px;
+    margin-top: 10px;
 }
 
 .objava__vrhInfo>h3 {
     font-size: medium;
+    margin-top: 20px;
+    margin-bottom: 5px;
 }
 
 .objava__vrhInfo>p {
     font-size: small;
     color: gray;
+    margin-top: 3px;
+    margin-bottom: 13px;
 }
 
 .objava__dno {
     margin-top: 10px;
     margin-bottom: 10px;
-    padding: 15px 25px;
+    padding: 0px 25px;
 }
 
 .objava__dugmad {
@@ -60,6 +67,8 @@
     align-items: center;
     color: gray;
     margin: 0px 30px;
+    padding-top: 0px;
+    padding-bottom: 0px;
 }
 
 .objava__dugme>p {

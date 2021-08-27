@@ -12,6 +12,8 @@ const Novosti = () => {
   let listaPrijatelja = JSON.parse(
     localStorage.getItem("trenutniKorisnik")
   ).friends;
+    listaPrijatelja.push(logovaniKorisnik._id)
+  
 
   useEffect(() => {
     let called = false;
@@ -38,10 +40,11 @@ const Novosti = () => {
           return (
             <div key={i}>
               <Objava
-                profilnaSlika={datum.profilnaSlika}
+                profilna={datum.profilnaSlika}
                 imeKorisnika={datum.name}
                 tekst={datum.post.content}
-                slika={datum.profilnaSlika}
+                slika={datum.post.imageUrl}
+                vreme={datum.post.time}
               />
             </div>
           );

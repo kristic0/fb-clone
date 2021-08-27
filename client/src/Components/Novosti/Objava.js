@@ -8,14 +8,14 @@ import NearMeIcon from "@material-ui/icons/NearMe";
 import AccountCircleIclon from "@material-ui/icons/AccountCircle";
 import ExpandMoreOutlined from "@material-ui/icons/ExpandMoreOutlined";
 
-const Objava = ({ profilna, imeKorisnika, tekst, slika }) => {
+const Objava = ({ profilna, imeKorisnika, tekst, slika, vreme }) => {
   return (
     <div className="objava">
       <div className="objava__vrh">
         <Avatar src={profilna} className="objava__avatar" />
         <div className="objava__vrhInfo">
           <h3>{imeKorisnika}</h3>
-          {/* <p>{new Date(parseInt(vreme)).toLocaleString()}</p> */}
+          <p>{vreme}</p>
         </div>
       </div>
 

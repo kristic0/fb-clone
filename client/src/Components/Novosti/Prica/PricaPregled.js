@@ -2,39 +2,27 @@ import React from 'react'
 import Prica from './Prica'
 import './PricaPregled.css'
 
+let price = [
+{ime:'Peter Griffin',profilna:'',slika:'https://images-ext-2.discordapp.net/external/6318OfEXwsmab0rgSrH5-Dh3Ob18y__VugQv2g_u5M4/https/m.media-amazon.com/images/I/41cuQnJf5kL._AC_.jpg'},
+{ime:'Louis Griffin',profilna:'',slika:'https://upload.wikimedia.org/wikipedia/en/a/a5/Lois_Griffin.png'}, 
+{ime:'Brian Griffin',profilna:'',slika:'https://www.kindpng.com/picc/m/153-1530010_brian-griffin-and-vinny-griffin-hd-png-download.png'}, 
+{ime:'Megan Griffin',profilna:'',slika:'https://upload.wikimedia.org/wikipedia/en/thumb/c/c7/Meg_Griffin.png/220px-Meg_Griffin.png'}, 
+{ime:'Chris Griffin',profilna:'',slika:'https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Chris_Griffin.png/220px-Chris_Griffin.png'}]; 
 const PricaPregled = () => {
+    let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
     return (
         <div className='pricaPregled'>
-            <Prica
-                slika='https://onarto.com/wp-content/uploads/2018/01/Tanawat-Abstract-Portrait-01-80-x-100-8.jpg'
-                profilna='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
-                ime='Boban Marjanovic'
+            {
+                price.map((s) => 
+                <Prica
+                slika={s.slika}
+                profilna={s.profilna}
+                ime={s.ime}
             />
+            )}
 
-            <Prica
-                slika='https://onarto.com/wp-content/uploads/2018/01/Tanawat-Abstract-Portrait-01-80-x-100-8.jpg'
-                profilna='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
-                ime='Boban Marjanovic'
-            />
-
-            <Prica
-                slika='https://onarto.com/wp-content/uploads/2018/01/Tanawat-Abstract-Portrait-01-80-x-100-8.jpg'
-                profilna='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
-                ime='Boban Marjanovic'
-            />
-
-            <Prica
-                slika='https://onarto.com/wp-content/uploads/2018/01/Tanawat-Abstract-Portrait-01-80-x-100-8.jpg'
-                profilna='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
-                ime='Boban Marjanovic'
-            />
-
-            <Prica
-                slika='https://onarto.com/wp-content/uploads/2018/01/Tanawat-Abstract-Portrait-01-80-x-100-8.jpg'
-                profilna='https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80'
-                ime='Boban Marjanovic'
-            />
-            
+           
+    
         </div>
     )
 }

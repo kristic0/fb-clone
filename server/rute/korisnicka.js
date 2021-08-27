@@ -86,8 +86,8 @@ router.post("/dodajPost", async (req, res) => {
 
   const post = new Post({
     content: req.body.content,
-    imageUrl: req.body.imageUrl,
-    time: new Date(),
+    imageUrl: req.body.imgUrl,
+    time: new Date().toLocaleString(),
   });
 
   await Korisnik.findOne({ _id: korisnickiId }, async (err, korisnik) => {
