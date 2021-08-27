@@ -1,5 +1,9 @@
 .app {
-  background-color: #f1f2f5;
+  background-color: #eff2f5;
+}
+
+.App {
+  background-color: #eff2f5;
 }
 
 .App-logo {
@@ -21,6 +25,7 @@
 .app__body {
   display: grid;
   padding: 0 20px;
+  min-height: 100vh;
 }
 
 .login {

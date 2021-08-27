@@ -21,9 +21,8 @@ import { ReactComponent as Upitnik } from "./icons/question-mark-svgrepo-com.svg
 
 import { CSSTransition } from "react-transition-group";
 import { useState } from "react";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import { Link } from "react-router-dom";
 
 import "./App.css";
 

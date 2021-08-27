@@ -369,6 +369,7 @@ router.post("/registracija", async (req, res) => {
       pol: "",
       datum: "",
       jezici: "",
+      veza: "",
     },
   });
 

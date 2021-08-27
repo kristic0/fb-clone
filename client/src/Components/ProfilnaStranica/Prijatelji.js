@@ -2,7 +2,6 @@ import { React, Component } from "react";
 import SearchIcon from "@material-ui/icons/Search";
 
 import "./Prijatelji.css";
-import PrijateljiList from "./databaseSimulation.json";
 
 class Prijatelji extends Component {
   constructor(props) {
@@ -20,14 +19,14 @@ class Prijatelji extends Component {
             </div>
           </div>
           <div className="divDole">
-            {PrijateljiList.map((prijatelj) => (
-              <div className="divPrikazPrijatelj" key={prijatelj.ime}>
+            {this.props.getPrijatelje.map((prijatelj) => (
+              <div className="divPrikazPrijatelj" key={prijatelj.name}>
                 <div className="divPrijateljSlika">
                   <img
                     src={prijatelj.profilnaSlika}
                     alt=""
                     onClick={() => {
-                      this.props.setIdProfilaParentComponent(prijatelj.id);
+                      this.props.setIdProfilaParentComponent(prijatelj);
                       this.props.setStanjeParentComponent(1);
                     }}
                   />
@@ -35,11 +34,11 @@ class Prijatelji extends Component {
                 <div
                   className="divPrijateljIme"
                   onClick={() => {
-                    this.props.setIdProfilaParentComponent(prijatelj.id);
+                    this.props.setIdProfilaParentComponent(prijatelj);
                     this.props.setStanjeParentComponent(1);
                   }}
                 >
-                  {prijatelj.ime + " " + prijatelj.prezime}
+                  {prijatelj.name}
                 </div>
               </div>
             ))}
