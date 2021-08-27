@@ -10,7 +10,7 @@ import CreateIcon from "@material-ui/icons/Create";
 import MoreHorizIcon from "@material-ui/icons/MoreHoriz";
 import CloseIcon from "@material-ui/icons/Close";
 
-import "./GlavniCSS.css";
+import "./ProfilnaStranica.css";
 import ObjaveTab from "./ObjaveTab.js";
 import Informacije from "./Informacije.js";
 import Prijatelji from "./Prijatelji.js";
@@ -19,7 +19,7 @@ import Header from "../Header";
 
 import axios from "axios";
 
-export const GlavniJS = () => {
+const ProfilnaStranica = () => {
   let trenutni = JSON.parse(localStorage.getItem("trenutniKorisnik"));
 
   const [stanje, setStanje] = useState(1);
@@ -169,11 +169,11 @@ export const GlavniJS = () => {
       </div>
       <div className="donjiDeo">
         <div className={stanje === 1 ? "aktivno" : "neaktivno"}>
-          <ObjaveTab
+          {/* <ObjaveTab
             setIdProfilaParentComponent={setIdProfila}
             setStanjeParentComponent={setStanje}
             getIdProfila={idProfila}
-          />
+          /> */}
         </div>
         <div className={stanje === 2 ? "aktivno" : "neaktivno"}>
           <Informacije />
@@ -192,4 +192,4 @@ export const GlavniJS = () => {
   );
 };
 
-export default GlavniJS;
+export default ProfilnaStranica;

@@ -29,8 +29,7 @@ import "./App.css";
 
 import MainPage from "./Components/Novosti/MainPage";
 import PostZaLog from "./PostZaLog";
-import GlavniJS from "./Components/ProfilnaStranica/GlavniJS";
-import PozivProfil from "./PozivProfil";
+import ProfilnaStranica from "./Components/ProfilnaStranica/ProfilnaStranica";
 
 function App() {
   return (
@@ -42,7 +41,9 @@ function App() {
             <MainPage />
           </Route>
           <Route path="/" component={PostZaLog} exact />
-          <Route path="/ProfilPoziv" component={PozivProfil} />
+          <Route path="/ProfilPoziv">
+            <ProfilnaStranica />
+          </Route>
         </Switch>
       </Router>
     </div>

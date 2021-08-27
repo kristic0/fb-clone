@@ -18,13 +18,18 @@ import { ReactComponent as Upitnik } from "../icons/question-mark-svgrepo-com.sv
 import { Link } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import "./Header.css";
-import GlavniJS from "./ProfilnaStranica/GlavniJS";
+import ProfilnaStranica from "./ProfilnaStranica/ProfilnaStranica";
 
 const Header = () => {
   let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
   let history = useHistory();
   function clickHandler() {
     history.push("/Novosti");
+  }
+
+  function profilnaStranica() {
+    console.log("works");
+    history.push("/ProfilPoziv");
   }
 
   return (
@@ -70,15 +75,12 @@ const Header = () => {
         <div className="header__info">
           <Avatar src={logovaniKorisnik.profilnaSlika} />
           <h4>{logovaniKorisnik.name}</h4>
-
           <IconButton>
             <AddIcon />
           </IconButton>
-
           <IconButton>
             <ForumIcon />
           </IconButton>
-
           <IconButton>
             <NotificationsActiveIcon />
           </IconButton>
@@ -138,7 +140,7 @@ const Header = () => {
             <SpustajuciItem
               leftIcon={<Avatar src={logovaniKorisnik.profilnaSlika} />}
             >
-              <p>Moj profil</p>
+              <p onClick={profilnaStranica}>Moj profil</p>
             </SpustajuciItem>
 
             <SpustajuciItem
