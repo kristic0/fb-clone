@@ -9,48 +9,44 @@ const Novosti = () => {
   const [postovi, postaviPostove] = useState([]);
   let logovaniKorisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
 
-  useEffect(() => {
-    let sviPostovi = () => {
-      let listaPrijatelja = JSON.parse(
-        localStorage.getItem("trenutniKorisnik")
-      ).friends;
-      for (let i = 0; i < listaPrijatelja.length; i++) {
-        axios
-          .get(`/korisnik/getSvePostoveKorisnika/${listaPrijatelja[i]}`)
-          .then((response) =>
-            postaviPostove((postoviKorisnika) => [
-              ...postoviKorisnika,
-              response.data,
-            ])
-          );
+  let listaPrijatelja = JSON.parse(
+    localStorage.getItem("trenutniKorisnik")
+  ).friends;
 
-        console.log(postovi);
-      }
-    };
-    sviPostovi();
+  useEffect(() => {
+    let called = false;
+    for (let i = 0; i < listaPrijatelja.length; i++) {
+      axios
+        .get(`/korisnik/getSvePostoveKorisnika/${listaPrijatelja[i]}`)
+        .then((response) => {
+          if (!called) {
+            postaviPostove((oldArray) => [...oldArray, response.data]);
+          }
+        });
+    }
+    return () => (called = true);
   }, []);
+  console.log(postovi);
 
   return (
     <div className="novosti">
       <PricaPregled />
       <Postavi />
-      <Objava
-        profilna="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MXx8cG9ydHJhaXR8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80"
-        tekst="Moj prvi post!"
-        vreme="1629999999990"
-        slika={logovaniKorisnik.profilnaSlika}
-        imeKorisnika="Nikola Francuski"
-      />
 
-      {postovi.map((p) => (
-        <Objava
-          tekst={p.profilnaSlika}
-          imeKorisnika={p.name}
-          tekst={p.content}
-          slika={p.slika}
-          key={p._id}
-        />
-      ))}
+      {postovi.map((item) => {
+        return Object.entries(item).map(([key, datum], i) => {
+          return (
+            <div key={i}>
+              <Objava
+                profilnaSlika={datum.profilnaSlika}
+                imeKorisnika={datum.name}
+                tekst={datum.post.content}
+                slika={datum.profilnaSlika}
+              />
+            </div>
+          );
+        });
+      })}
     </div>
   );
 };
