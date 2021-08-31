@@ -16,11 +16,12 @@ import Informacije from "./Informacije.js";
 import Prijatelji from "./Prijatelji.js";
 import Fotografije from "./Fotografije.js";
 import Header from "../Header";
+import Post from "../Novosti/Objava";
 
 import axios from "axios";
 
 const ProfilnaStranica = () => {
-  let korisnik = JSON.parse(localStorage.getItem("trenutniKorisnik"));
+  let korisnik = JSON.parse(localStorage.getItem("trenutniKorisnik")); //uzima iz localStorage-a objekat logovanog korisnika
 
   const [stanje, setStanje] = useState(1);
 
@@ -117,7 +118,12 @@ const ProfilnaStranica = () => {
               </div>
 
               <div className="divDialogFotografijaKomentari">
-                <h1>nesto</h1>
+                <Post
+                  profilna={profil.profilnaSlika}
+                  imeKorisnika={profil.name}
+                  tekst={"Objava"}
+                  vreme={"31.08.2021."}
+                />
               </div>
             </div>
           </DialogContent>

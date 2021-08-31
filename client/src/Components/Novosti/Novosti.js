@@ -12,8 +12,7 @@ const Novosti = () => {
   let listaPrijatelja = JSON.parse(
     localStorage.getItem("trenutniKorisnik")
   ).friends;
-    listaPrijatelja.push(logovaniKorisnik._id)
-  
+  listaPrijatelja.push(logovaniKorisnik._id);
 
   useEffect(() => {
     let called = false;

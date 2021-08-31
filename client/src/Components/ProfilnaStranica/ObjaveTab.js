@@ -260,15 +260,15 @@ class ObjaveTab extends React.Component {
 
           <div className="objave">
             {this.props.getPostove.map((item) => {
-              return Object.entries(item).map(([key, datum], i) => {
+              return Object.entries(item).map(([key, korisnik], i) => {
                 return (
                   <div key={i}>
                     <Post
-                      profilna={datum.profilnaSlika}
-                      imeKorisnika={datum.name}
-                      tekst={datum.post.content}
-                      slika={datum.post.imageUrl}
-                      vreme={datum.post.time}
+                      profilna={this.props.getIdProfila.profilnaSlika}
+                      imeKorisnika={this.props.getIdProfila.name}
+                      tekst={korisnik.post.content}
+                      slika={korisnik.post.imageUrl}
+                      vreme={korisnik.post.time}
                     />
                   </div>
                 );
